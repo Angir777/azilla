@@ -1,0 +1,485 @@
+{% extends 'private/theme.html.twig' %}
+{% block title %}g/{{nameGroup}}{% endblock %}
+{% block body %}
+    {% block header %}{{ parent() }}{% endblock %}
+    <div class="container my-md-4">
+        <div class="row">
+            {% block menu %}{{ parent() }}{% endblock %}
+            <div class="col-12 col-sm-12 col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-8 order-sm-last order-lg-frist">
+                        {% block ad_2 %}{{ parent() }}{% endblock %}
+                        <div class="bd-content">
+                            {% if success_create_group is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-success" role="alert">
+                                        <h6 class="alert-heading">{{ 'Sukces!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Pomyślnie utworzono grupę.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mt-3">
+                                    <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-users"></i> g/<strong>{{nameGroup}}</strong></li>
+                                </ol>
+                            </nav>
+                            {% set userAccountActivation = "" %} {# Czy user aktywował swoje konto? Jeśli '0' to nie może dodawać postów ani komentować i oceniać #}
+                            {% if usersList %}
+                                {% for user in usersList %}
+                                    {% if user.id == globalIdUser %}
+                                        {% set userAccountActivation = user.activated %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if showList %}
+                                {% for post in showList %}
+                                    <div id="post_{{ post.id }}" class="post bd-example">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                {% if usersList %}
+                                                    {% for user in usersList %}
+                                                        {% if user.id == post.idAuthor %}
+                                                            {% if usersSettings %}
+                                                                {% for settings in usersSettings %}
+                                                                    {% if settings.idUser == post.idAuthor %}
+                                                                        {% if settings.avatar == "null" %}
+                                                                            {% set avatarUrl = "../tmp/images/basic_avatar.png" %}
+                                                                        {% else %}
+                                                                            {% set avatarUrl = "../tmp/users/" %}
+                                                                            {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                                                        {% endif %}
+                                                                        {% if settings.nickShow == 1 %}
+                                                                            {% set userName = user.name ~ " " ~ user.surname %}
+                                                                        {% else %}
+                                                                            {% set userName = user.nick %}
+                                                                        {% endif %}
+                                                                        <div class="_2jJNpBqXMbbyOiGCElTYxZ">
+                                                                            <a class="_2E_zUw3OUkCKUFrIQwE894" href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">
+                                                                                <div class="efdkOLo3oigH_95whTYCp">
+                                                                                    <div class="_1cyAeeYDGrx7MPL_jRwKZ _1cvAFWcyUe8hsdIpCmJP0W">
+                                                                                        <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                                                                        <div class="_1XJXnCAngvZLEeLpB3oa4L3">
+                                                                                            <img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="{{avatarUrl}}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+                                                                            <strong class="ms-1"><a href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">{{ userName }}</a>
+                                                                                {% if user.verification == 1 %}
+                                                                                    <span class="icon verification" title="Konto zweryfikowane"></span>
+                                                                                {% endif %}
+                                                                            </strong>
+                                                                        </div>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            {% if authorGroup == globalIdUser %}
+                                                {% if post.idAuthor != globalIdUser %}
+                                                    <div class="col-6">
+                                                        <div class="dropdown position-absolute top-0 end-0 rounded-top">
+                                                            <a class="btn btn-post-more dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                                                <li><button class="dropdown-item" onclick="report({{ post.idAuthor }}, {{ post.id }})"><i class="fas fa-ban"></i>&nbsp; Zgłoś użytkownika</button></li>
+                                                                <li><button class="dropdown-item" onclick="deletePost({{ post.idAuthor }}, {{ post.id }})"><i class="fas fa-trash"></i>&nbsp; Usuń ten post użytkownika z grupy</button></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="main mt-3">
+                                            <h2><a href="{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" title="{{ post.title|lower }}">{{ post.title }}</a></h2>
+                                            
+                                            <p>{{ post.text }}</p>
+                                            
+                                            {% if post.urlVideo != "none" %}
+                                                <video class="ratio ratio-16x9" controls>
+                                                    <source src="/tmp/users/{{ post.urlVideo }}" type="video/mp4">
+                                                    Your browser does not support HTML video.
+                                                </video>
+                                            {% endif %}
+
+                                            {% if post.urlPhotos != "none" %}
+                                                <div class="row photo-gallery">
+                                                    <div class="col-12">
+                                                        <a class="example-image-link" href="/tmp/users/{{ post.urlPhotos }}" data-lightbox="example-set{{post.id}}" data-title="">
+                                                            <img class="example-image" src="/tmp/users/{{ post.urlPhotos }}" alt=""/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if post.url != "none" %}
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a class="example-image-link" href="{{post.url}}" target="_blank" rel="nofollow">{{post.url}}</a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="main mt-3">
+                                            <div class="hashtags">
+                                                {% if tagsList %}
+                                                    {% for tag in tagsList %}
+                                                        {% if tag.idPost == post.id %}
+                                                            {# Link do wpisów o takim samym hashtagu #}
+                                                            <a href="{{ path('get_hashtag', {'hashtag_url':tag.tagUrl|lower}) }}" title="hashtag {{ tag.tagName }}"><i class="fab fa-slack-hash"></i> {{ tag.tagName }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="group mt-2">
+                                                {% if groupsList %}
+                                                    {% for group in groupsList %}
+                                                        {% if group.idPost == post.id %}
+                                                            {# Link do wpisów o takim samej grupie #}
+                                                            <a href="{{ path('get_group', {'group_url':group.groupUrl|lower}) }}" title="group {{ group.groupName }}"><i class="fas fa-users"></i> {{ group.groupName }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="date mt-3 pb-2">
+                                            {{ post.dateAdded }} · {{ post.timeAdded }}
+                                        </div>
+                                        <div class="buttons mt-3">
+                                            <ul class="nav nav-pills nav-fill">
+                                                <li class="nav-item pe-2">
+                                                    <a href="{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}">
+                                                        <button type="button" class="btn btn-comment">
+                                                            <i class="far fa-comments"></i>
+                                                            {% set countComments = 0 %}
+                                                            {% if commentsList %}
+                                                                {% for comments in commentsList %}
+                                                                    {% if comments.idPost == post.id %}
+                                                                       {% set countComments = countComments + 1 %}          
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                            {{countComments}}
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item pe-2">
+                                                    {% set voted = '' %}
+                                                    {% if ratingList %}
+                                                        {% for rating in ratingList %}
+                                                            {% if rating.idPost == post.id %}
+                                                                {% if rating.idUser == app.user.id %}
+                                                                    {% if rating.rating == 0 %}
+                                                                        {% set voted = 'voted' %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <button type="button" id="btn_unlike_{{ post.id }}" class="btn btn-unlike {{voted}}" onclick="rating({{ post.id }}, 'unlike')" 
+                                                    {% if userAccountActivation == 0 %}disabled{% endif %}>
+                                                        <i class="far fa-thumbs-down"></i>
+                                                        <span id="unlike_{{ post.id }}">{{ post.numberDislikes }}</span>
+                                                    </button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    {% set voted = '' %}
+                                                    {% if ratingList %}
+                                                        {% for rating in ratingList %}
+                                                            {% if rating.idPost == post.id %}
+                                                                {% if rating.idUser == app.user.id %}
+                                                                    {% if rating.rating == 1 %}
+                                                                        {% set voted = 'voted' %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <button type="button" id="btn_like_{{ post.id }}" class="btn btn-like {{voted}}" onclick="rating({{ post.id }}, 'like')" 
+                                                    {% if userAccountActivation == 0 %}disabled{% endif %}>
+                                                        <i class="far fa-thumbs-up"></i>
+                                                        <span id="like_{{ post.id }}">{{ post.numberLikes }}</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="buttons mt-3">
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-share dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fas fa-share-alt"></i> {{ 'Udostępnij' | trans }}
+                                                </button>
+                                                <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenu2">
+                                                    <li>
+                                                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://azilla.pl{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" target="_blank" rel="nofollow">
+                                                            <button class="dropdown-item" type="button">
+                                                                <i class="fab fa-facebook-f"></i> FACEBOOK
+                                                            </button>
+                                                        </a>
+                                                    </li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li>
+                                                        <a href="https://twitter.com/intent/tweet?text=title&amp;url=https://azilla.pl{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" target="_blank" rel="nofollow">
+                                                            <button class="dropdown-item" type="button">
+                                                                <i class="fab fa-twitter"></i> TWITTER
+                                                            </button>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-normal" role="alert">
+                                        <span class="alert-text">{{ 'Jeszcze nikt nic nie dodał lub ustawienia Twojego konta nie pozwalają na wyświetlanie określonych treści.' | trans }}</span>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            <div class="justify-content-center">
+                                {{ knp_pagination_render(showList) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-4 mb-4 order-sm-frist order-lg-last">
+                        <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX mt-widget" data-redditstyle="true">
+                            <div class="TmgZY6tDcdErbE5d7E0HJ">
+
+                                {% if backgroundGroup == "null" %}
+                                    <div class="hpxKmfWP2ZiwdKaWpefMn"></div>
+                                {% else %}
+                                    {% set backgroundGroupUrl = "../tmp/groups/" %}
+                                    {% set backgroundGroupUrl = backgroundGroupUrl ~ backgroundGroup %}
+                                    <div class="hpxKmfWP2ZiwdKaWpefMn" style="background-image: url({{backgroundGroupUrl}});">
+                                        {% if authorGroup == globalIdUser %}
+                                            <a href="{{ path('edit_group', {'group_url':urlGroup}) }}" title="edytuj grupę">
+                                                <button type="button" class="btn btn-edit-group">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                    <div class="_2TC7AdkcuxFIFKRO_VWis8 mt-3 pt-3">
+                                        <h1>{{nameGroup}}</h1>
+                                        <hr>
+                                        {% set foo = app.request.pathinfo|split('/') %}
+                                        {% if groupsListAll %}
+                                            {% for group in groupsListAll %}
+                                                {% if group.url == foo[2] %}  
+                                                    {% if group.id > 14 %}
+                                                        {% for user in usersList %}
+                                                            {% if user.id == group.idAuthor %}
+                                                                {% if usersSettings %}
+                                                                    {% for settings in usersSettings %}
+                                                                        {% if settings.idUser == group.idAuthor %}
+                                                                            {% if settings.nickShow == 1 %}
+                                                                                {% set userName = user.name ~ " " ~ user.surname %}
+                                                                            {% else %}
+                                                                                {% set userName = user.nick %}
+                                                                            {% endif %}
+                                                                            {% if group.nickShow == 1 %}
+                                                                                <div class="mt-2">
+                                                                                    <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Grupę założył użytkownik' | trans }}</span>
+                                                                                    <h5><a href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">{{ userName }}</a>{% if user.verification == 1 %}<span class="icon verification" title="Konto zweryfikowane"></span>{% endif %}</h5>
+                                                                                </div>
+                                                                                <hr>
+                                                                            {% endif %}
+                                                                         {% endif %}
+                                                                     {% endfor %}
+                                                                 {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        <div class="mt-2"><i class="fas fa-cookie-bite"></i> Utworzono {{creationDateGroup}}</div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Obserwujących' | trans }}<br><strong id="joinCount">{{countGroupsSwitch}}</strong></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Postów' | trans }}<br><strong id="joinCount">{{postsWithGroup}}</strong></span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="mt-2 mb-2">{{descriptionGroup}}</div>
+                                    </div>
+                                </div>
+                                <div id="joinText" class="_1qiHDKK74j6hUNxM0p9ZIp text-center mb-2">
+                                    {% if user_join_group == 1 %}
+                                        <button type="button" class="btn btn-md btn-go2 btn-block rounded-pill" onclick="joincommunity({{ idGroup }})">Przestań obserwować</button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-md btn-go2 btn-block rounded-pill" onclick="joincommunity({{ idGroup }})">{{ 'Dołącz do społeczności' | trans }}</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX mt-4" data-redditstyle="true">
+                            <div class="TmgZY6tDcdErbE5d7E0HJ">
+                                <div class="hpxKmfWP2ZiwdKaWpefMn"></div>
+                                <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                    {#<div class="_2KqgQ5WzoQRJqjjoznu22o" style="background: url(https://www.redditstatic.com/desktop2x/img/id-cards/snoo-home@2x.png) 0% 0% / 40px 68px; height: 68px; width: 40px;"></div>#}
+                                    <div class="_2TC7AdkcuxFIFKRO_VWis8 pt-5 pb-3">
+                                        <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Masz pomysł na nową społeczność?' | trans }}</span>
+                                    </div>
+                                </div>
+                                <div data-redditstyle="true" class="_1EPynDYoibfs7nDggdH7Gq">
+                                    <div class="_1zPvgKHteTOub9dKkvrOl4"></div>
+                                </div>
+                                <div class="_1qiHDKK74j6hUNxM0p9ZIp text-center">
+                                    <a href="#" class="btn btn-md btn-go2 btn-block rounded-pill wkrotce3 disabled">{{ 'Uwórz społeczność' | trans }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% block ad_1 %}{{ parent() }}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalRating" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3>HEY!</h3>
+                            {% if usersList %}
+                                {% for user in usersList %}
+                                    {% if user.id == globalIdUser %}
+                                        {% if user.sex == 0 %}
+                                            <h5>Już głosowałeś!</h5>
+                                        {% else %}
+                                            <h5>Już głosowałaś!</h5>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalReport" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>Przyjeliśmy zgłoszenie!</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalDeletePost" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>Post został usunięty z grupy!</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <!-- rating -->
+    <script>
+        function rating(post_id, type){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200){
+                    if(xhttp.responseText != "none"){
+                        document.getElementById(type+'_'+post_id).innerHTML = xhttp.responseText;
+                        if (type == 'like')
+                            document.getElementById('btn_'+type+'_'+post_id).style.background='#67b8ff';
+                        else if (type == 'unlike')
+                            document.getElementById('btn_'+type+'_'+post_id).style.background='#ff5148';
+                    }else{
+                        $('#modalRating').modal('show');
+                        setTimeout(function() {$('#modalRating').modal('hide');}, 2000);
+                    }
+                }
+            }
+            // generate url path - in future chceck to use with FOSJsRoutingBundle
+            {% set h1 = '00' %}
+            {% set h2 = 'like' %}
+            var url = "{{ path('rating_system', {'post_id':h1, 'type':h2}) }}"; 
+            url = url.replace("00", post_id);
+            url = url.replace("like", type);
+            // ajax send
+            xhttp.open("GET", url);
+            xhttp.send();
+        }
+
+        // delete post from group
+        function deletePost(author_id, post_id){
+            var query = author_id+"/"+post_id;
+            var generate_url = "{{ path('delete_post_group') }}";
+            $.ajax({
+                url:generate_url,
+                method:"POST",
+                data:{query:query},
+                success:function(data){
+                    $('#modalDeletePost').modal('show');
+                    setTimeout(function() {$('#modalDeletePost').modal('hide');}, 2000);
+
+                    var x = document.getElementById("post_"+post_id);
+                    x.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+    <!-- join the community -->
+    <script>
+        function joincommunity(group_id){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200){
+                    var joinval = xhttp.responseText;
+                    if(joinval == 1){
+                        document.getElementById('joinText').innerHTML = '<button type="button" class="btn btn-md btn-go2 btn-block rounded-pill" onclick="joincommunity({{ idGroup }})">Dołącz do społeczności</button>';
+                        document.getElementById('joinCount').innerHTML = parseInt(document.getElementById('joinCount').innerHTML) - 1;
+                    }else if(joinval == 0){
+                        document.getElementById('joinText').innerHTML = '<button type="button" class="btn btn-md btn-go2 btn-block rounded-pill" onclick="joincommunity({{ idGroup }})">Przestań obserwować</button>';
+                        document.getElementById('joinCount').innerHTML = parseInt(document.getElementById('joinCount').innerHTML) + 1;
+                    }
+                }
+            }
+            // generate url path - in future chceck to use with FOSJsRoutingBundle
+            {% set h1 = '00' %}
+            var url = "{{ path('join_the_group', {'group':h1}) }}"; 
+            url = url.replace("00", group_id);
+            // ajax send
+            xhttp.open("GET", url);
+            xhttp.send();
+        }
+    </script>
+
+{% endblock %}

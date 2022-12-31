@@ -1,0 +1,29 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+    providers:
+        my_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            
+            form_login:
+                login_path: security_login
+                check_path: security_login
+                provider: my_provider
+
+            logout:
+                path: security_logout
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/public, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

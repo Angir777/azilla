@@ -1,0 +1,482 @@
+{% extends 'private/theme.html.twig' %}
+{% block title %}{{ 'Dodaj post' | trans }}{% endblock %}
+{% block body %}
+	{% block header %}{{ parent() }}{% endblock %}
+    <div class="container my-md-4">
+        <div class="row">
+            {% block menu %}{{ parent() }}{% endblock %}
+            <div class="col-12 col-sm-12 col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-8">
+                        <div class="bd-content">
+                            {% set userAccountActivation = 0 %}
+                            {% if usersList %}
+                                {% for user in usersList %}
+                                    {% if user.id == globalIdUser %}
+                                        {% set userAccountActivation = user.activated %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if info_success is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-success" role="alert">
+                                        <h6 class="alert-heading">{{ 'Sukces!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Pomyślnie dodano wpis.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if info_error_long_text is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h6 class="alert-heading">{{ 'Błąd!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Zbyt długi tekst. Maksymalna ilość słów to 279.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if info_error_file_size is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h6 class="alert-heading">{{ 'Błąd!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Za duża waga pliku.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if info_error_file_bad_format is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h6 class="alert-heading">{{ 'Błąd!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Zły format pliku.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if info_error_file is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h6 class="alert-heading">{{ 'Błąd!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Wystapił błąd podczas przesyłania pliku. Sprubój ponownie za chwilę.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if info_error_none is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h6 class="alert-heading">{{ 'Błąd!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Nie możesz dodać pustego wpisu. Uzupełnij wymagane pola.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if info_error is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h6 class="alert-heading">{{ 'Błąd!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Wystapił nieoczekiwany błąd. Sprubój ponownie za chwile.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if info_spamstop is defined %}
+                                <div id="hideMessage" style="display: block;">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h6 class="alert-heading">{{ 'Uwaga!' | trans }}</h6>
+                                        <hr>
+                                        <span class="alert-text">{{ 'Możesz dodać kolejny post za około 30 sekund.' | trans }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <nav class="nav nav-pills flex-column flex-sm-row mt-2">
+                                <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" data-bs-target="#post" type="button" role="tab" aria-controls="post" aria-selected="true"><i class="far fa-comment-alt"></i> {{' Post' | trans }}</a>
+                                <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" data-bs-target="#media" type="button" role="tab" aria-controls="media" aria-selected="false"><i class="far fa-image"></i> {{ 'Zdjęcie / Wideo' | trans }}</a>
+                                <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" data-bs-target="#link" type="button" role="tab" aria-controls="link" aria-selected="false"><i class="fas fa-link"></i> {{ 'Link' | trans }}</a>
+                            </nav>
+                            <div class="tab-content" id="myTabContent">
+                                {% if userAccountActivation == 0 %}
+                                    <div class="alert alert-normal" role="alert">
+                                        <span class="alert-text">{{ 'Aby móc dodawać wpisy musisz aktywować swoje konto.' | trans }}</span>
+                                    </div>
+                                {% else %}
+                                <div class="tab-pane fade show active" id="post" role="tabpanel" aria-labelledby="post-tab">
+                                    <div id="submit-post" class="bd-example mt-2">
+                                        <form enctype="multipart/form-data" action="{{ path('submit_post_form', {'type_form':'post'}) }}" method="POST">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="post_community1" class="form-label">{{ 'Wybierz grupę' | trans }}</label>
+                                                        <input type="text" class="form-control" id="post_community1" name="post_community1">
+                                                        <div id="groupsList1"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="requied_1 mb-3">
+                                                        <label for="post_title" class="form-label">{{ 'Tytuł' | trans }}*</label>
+                                                        <input type="text" class="form-control" id="post_title" name="post_title" minlength="5" maxlength="60" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="message_body_1" class="form-label">Tekst</label>
+                                                        <textarea id="message_body_1" name="formMessage" class="form-control rounded-3" style="height: 100px" onkeyup="checkWordLen(this, 1);"></textarea>
+                                                        <span class="words-info words-left-1 text-white">279 słów pozostało</small></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="formAvailability" class="form-label">{{ 'Dostępność' | trans }}</label>
+                                                        <select class="form-select" id="formAvailability" name="formAvailability">
+                                                            <option value="0" {% if userSettings.availability == "0" %} selected {% endif %}>{{ 'Publiczny' | trans }}</option>
+                                                            {#<option value="1" {% if userSettings.availability == "1" %} selected {% endif %}>{{ 'Tylko obserwatorzy' | trans }}</option>#}
+                                                            <option value="2" {% if userSettings.availability == "2" %} selected {% endif %}>{{ 'Prywatny' | trans }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check form-switch mb-3">
+                                                        <label class="form-label">+ SPOILER</label>
+                                                        <input class="form-check-input" type="checkbox" name="post_spoiler" id="post_spoiler">
+                                                        <a tabindex="0"role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="{{ 'Oznacz jako spoiler.' | trans }}">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check form-switch mb-3">
+                                                        <label class="form-label">+ NSFW</label>
+                                                        <input class="form-check-input" type="checkbox" name="post_nsfw" id="post_nsfw">
+                                                        <a tabindex="0"role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="{{ 'Oznacz jako niebezpieczne w miejscu publicznym. Oznacza treść erotyczną, hard itp. Brak oznaczenia będzie skutkować banem.' | trans }}">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="tagsInput" class="form-label">{{ 'Dodaj znaczniki' | trans }}
+                                                            <i class="fas fa-hashtag"></i>
+                                                        </label>
+                                                        <input type="text" class="form-control input-tags i-w-max" id="tagsInput" data-role="tagsinput" name="tagsInput">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 text-center action_1">
+                                                    <input type="hidden" name="submit-post">
+                                                    <button class="btn btn-md btn-go btn-block rounded-pill" type="submit" disabled="disabled">{{ 'Wrzuć' | trans }}</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
+                                    <div id="submit-media" class="bd-example mt-2">
+                                        <form enctype="multipart/form-data" action="{{ path('submit_post_form', {'type_form':'media'}) }}" method="POST">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="post_community2" class="form-label">{{ 'Wybierz grupę' | trans }}</label>
+                                                        <input type="text" class="form-control" id="post_community2" name="post_community2">
+                                                        <div id="groupsList2"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="requied_2 mb-3">
+                                                        <label for="post_title" class="form-label">{{ 'Tytuł' | trans }}*</label>
+                                                        <input type="text" class="form-control" id="post_title" name="post_title" minlength="5" maxlength="60" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="formFile" class="form-label">{{ 'Dodaj zdjęcie lub wideo' | trans }}*</label>
+                                                            <a tabindex="0"role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="{{ 'Maksymalny rozmiar pliku to 5MB. Dozwolone formaty to jpg, jpeg, png, gif i mp4.' | trans }}">
+                                                                <i class="fas fa-info-circle"></i>
+                                                            </a>
+                                                        <input class="form-control form-control-sm formFile" id="formFile" name="formFile" type="file" required accept="image/jpeg, image/png, image/gif, video/mp4">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="formAvailability" class="form-label">{{ 'Dostępność' | trans }}</label>
+                                                        <select class="form-select" id="formAvailability" name="formAvailability">
+                                                            <option value="0" {% if userSettings.availability == "0" %} selected {% endif %}>{{ 'Publiczny' | trans }}</option>
+                                                            {#<option value="1" {% if userSettings.availability == "1" %} selected {% endif %}>{{ 'Tylko obserwatorzy' | trans }}</option>#}
+                                                            <option value="2" {% if userSettings.availability == "2" %} selected {% endif %}>{{ 'Prywatny' | trans }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check form-switch mb-3">
+                                                        <label class="form-label">+ SPOILER</label>
+                                                        <input class="form-check-input" type="checkbox" name="post_spoiler" id="post_spoiler">
+                                                        <a tabindex="0"role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="{{ 'Oznacz jako spoiler.' | trans }}">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check form-switch mb-3">
+                                                        <label class="form-label">+ NSFW</label>
+                                                        <input class="form-check-input" type="checkbox" name="post_nsfw" id="post_nsfw">
+                                                        <a tabindex="0"role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="{{ 'Oznacz jako niebezpieczne w miejscu publicznym. Oznacza treść erotyczną, hard itp. Brak oznaczenia będzie skutkować banem.' | trans }}">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="tagsInput" class="form-label">{{ 'Dodaj znaczniki' | trans }}
+                                                            <i class="fas fa-hashtag"></i>
+                                                        </label>
+                                                        <input type="text" class="form-control input-tags i-w-max" id="tagsInput" data-role="tagsinput" name="tagsInput">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 text-center action_2">
+                                                    <input type="hidden" name="submit-media">
+                                                    <button class="btn btn-md btn-go btn-block rounded-pill" type="submit" disabled="disabled">{{ 'Wrzuć' | trans }}</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="link" role="tabpanel" aria-labelledby="link-tab">
+                                    <div id="submit-link" class="bd-example mt-2">
+                                        <form enctype="multipart/form-data" action="{{ path('submit_post_form', {'type_form':'link'}) }}" method="POST">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="post_community3" class="form-label">{{ 'Wybierz grupę' | trans }}</label>
+                                                        <input type="text" class="form-control" id="post_community3" name="post_community3">
+                                                        <div id="groupsList3"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="requied_3 mb-3">
+                                                        <label for="post_title" class="form-label">{{ 'Tytuł' | trans }}*</label>
+                                                        <input type="text" class="form-control" id="post_title" name="post_title" minlength="5" maxlength="60" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="requied_3 mb-3">
+                                                        <label for="post_link" class="form-label">{{ 'URL' | trans }}*</label>
+                                                        <input type="text" class="form-control" id="post_link" name="post_link" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="formAvailability" class="form-label">{{ 'Dostępność' | trans }}</label>
+                                                        <select class="form-select" id="formAvailability" name="formAvailability">
+                                                            <option value="0" {% if userSettings.availability == "0" %} selected {% endif %}>{{ 'Publiczny' | trans }}</option>
+                                                            {#<option value="1" {% if userSettings.availability == "1" %} selected {% endif %}>{{ 'Tylko obserwatorzy' | trans }}</option>#}
+                                                            <option value="2" {% if userSettings.availability == "2" %} selected {% endif %}>{{ 'Prywatny' | trans }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check form-switch mb-3">
+                                                        <label class="form-label">+ SPOILER</label>
+                                                        <input class="form-check-input" type="checkbox" name="post_spoiler" id="post_spoiler">
+                                                        <a tabindex="0"role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="{{ 'Oznacz jako spoiler.' | trans }}">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check form-switch mb-3">
+                                                        <label class="form-label">+ NSFW</label>
+                                                        <input class="form-check-input" type="checkbox" name="post_nsfw" id="post_nsfw">
+                                                        <a tabindex="0"role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="{{ 'Oznacz jako niebezpieczne w miejscu publicznym. Oznacza treść erotyczną, hard itp. Brak oznaczenia będzie skutkować banem.' | trans }}">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="tagsInput" class="form-label">{{ 'Dodaj znaczniki' | trans }}
+                                                            <i class="fas fa-hashtag"></i>
+                                                        </label>
+                                                        <input type="text" class="form-control input-tags i-w-max" id="tagsInput" data-role="tagsinput" name="tagsInput">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 text-center action_3">
+                                                    <input type="hidden" name="submit-link">
+                                                    <button class="btn btn-md btn-go btn-block rounded-pill" type="submit" disabled="disabled">{{ 'Wrzuć' | trans }}</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% block ad_3 %}{{ parent() }}{% endblock %}
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-4 mb-4">
+                        <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX mt-widget" data-redditstyle="true">
+                            <div class="TmgZY6tDcdErbE5d7E0HJ">
+                                <div class="hpxKmfWP2ZiwdKaWpefMn"></div>
+                                <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                    <div class="_2TC7AdkcuxFIFKRO_VWis8 mt-3 pt-3 pb-3">
+                                        <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Podstawowe grupy społeczności' | trans }}</span>
+                                        <div class="mt-2">
+                                            {% for tag in groups %}
+                                                <a class="badge rounded-pill badge-tag" href="{{ path('get_group', {'group_url':tag.url}) }}">{{ tag.Name }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX mt-4" data-redditstyle="true">
+                            <div class="TmgZY6tDcdErbE5d7E0HJ">
+                                <div class="hpxKmfWP2ZiwdKaWpefMn"></div>
+                                <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                    {#<div class="_2KqgQ5WzoQRJqjjoznu22o" style="background: url(https://www.redditstatic.com/desktop2x/img/id-cards/snoo-home@2x.png) 0% 0% / 40px 68px; height: 68px; width: 40px;"></div>#}
+                                    <div class="_2TC7AdkcuxFIFKRO_VWis8 pt-5 pb-3">
+                                        <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Masz pomysł na nową społeczność?' | trans }}</span>
+                                    </div>
+                                </div>
+                                <div data-redditstyle="true" class="_1EPynDYoibfs7nDggdH7Gq">
+                                    <div class="_1zPvgKHteTOub9dKkvrOl4"></div>
+                                </div>
+                                <div class="_1qiHDKK74j6hUNxM0p9ZIp text-center">
+                                    <a href="#" class="btn btn-md btn-go2 btn-block rounded-pill wkrotce2 disabled">{{ 'Uwórz społeczność' | trans }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% block ad_1 %}{{ parent() }}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    
+    {{ parent() }}
+
+    <!-- search groups -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            
+            $('#post_community1').keyup(function(){
+                var query = $(this).val();
+                if(query != ''){
+                    $.ajax({
+                        url:"{{ path('search_group', {'search_type':'post'}) }}",
+                        method:"POST",
+                        data:{query:query},
+                        success:function(data){
+                            $('#groupsList1').fadeIn();
+                            $('#groupsList1').html(data);
+                        }
+                    });
+                }else{
+                    $('#groupsList1').fadeIn();
+                    $('#groupsList1').html("");
+                }
+            });
+            $(document).on('click', '.item1', function(){
+                $('#post_community1').val($(this).text());
+                $('#groupsList1').fadeOut();
+            });
+
+            $('#post_community2').keyup(function(){
+                var query = $(this).val();
+                if(query != ''){
+                    $.ajax({
+                        url:"{{ path('search_group', {'search_type':'media'}) }}",
+                        method:"POST",
+                        data:{query:query},
+                        success:function(data){
+                            $('#groupsList2').fadeIn();
+                            $('#groupsList2').html(data);
+                        }
+                    });
+                }else{
+                    $('#groupsList2').fadeIn();
+                    $('#groupsList2').html("");
+                }
+            });
+            $(document).on('click', '.item2', function(){
+                $('#post_community2').val($(this).text());
+                $('#groupsList2').fadeOut();
+            });
+ 
+            $('#post_community3').keyup(function(){
+                var query = $(this).val();
+                if(query != ''){
+                    $.ajax({
+                        url:"{{ path('search_group', {'search_type':'link'}) }}",
+                        method:"POST",
+                        data:{query:query},
+                        success:function(data){
+                            $('#groupsList3').fadeIn();
+                            $('#groupsList3').html(data);
+                        }
+                    });
+                }else{
+                    $('#groupsList3').fadeIn();
+                    $('#groupsList3').html("");
+                }
+            });
+            $(document).on('click', '.item3', function(){
+                $('#post_community3').val($(this).text());
+                $('#groupsList3').fadeOut();
+            });
+
+        });
+    </script>
+
+    <!-- requieds -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $('.requied_1 input').on('keyup', function() {
+                var empty1 = false;
+
+                $('.requied_1 input').each(function() {
+                    if ($(this).val().length == 0) {
+                        empty1 = true;
+                    }
+                });
+
+                if (empty1)
+                    $('.action_1 button').attr('disabled', 'disabled');
+                else
+                    $('.action_1 button').attr('disabled', false);
+            });
+
+            $('.requied_2 input').on('keyup', function() {
+                var empty2 = false;
+
+                $('.requied_2 input').each(function() {
+                    if ($(this).val().length == 0) {
+                        empty2 = true;
+                    }
+                });
+
+                if (empty2)
+                    $('.action_2 button').attr('disabled', 'disabled');
+                else
+                    $('.action_2 button').attr('disabled', false);
+            });
+
+            $('.requied_3 input').on('keyup', function() {
+                var empty3 = false;
+
+                $('.requied_3 input').each(function() {
+                    if ($(this).val().length == 0) {
+                        empty3 = true;
+                    }
+                });
+
+                if (empty3)
+                    $('.action_3 button').attr('disabled', 'disabled');
+                else
+                    $('.action_3 button').attr('disabled', false);
+            });
+
+        });
+    </script>
+
+{% endblock %}

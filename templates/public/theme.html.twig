@@ -1,0 +1,22 @@
+{% extends 'public/base.html.twig' %}
+
+{% block images %}
+    
+    {% set randomize = random(['1', '2', '3']) %}
+
+    {% if randomize == "1" %}
+        {% set image = "https://images.unsplash.com/photo-1601913463731-cfba9fd31ed3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" %}
+        {% set url = "https://unsplash.com/photos/KsOWP1sH6W4" %}
+    {% elseif randomize == "2" %}
+        {% set image = "https://images.unsplash.com/photo-1503259901638-6bf44a4cd670?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1988&q=80" %}
+        {% set url = "https://unsplash.com/photos/jRiWB-UafGI" %}
+    {% elseif randomize == "3" %}
+        {% set image = "https://images.unsplash.com/photo-1493542352290-d3f90c0bb920?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2000&q=80" %}
+        {% set url = "https://unsplash.com/photos/Xdi0CfGZo4U" %}
+    {% endif %}
+
+    <div class="col-sm-12 col-md-1 d-none d-md-none d-lg-block c-one" style="background-image: url({{image}});">
+        <a href="{{url}}" target="_blank" rel="nofollow" class="author"></a>     
+    </div>
+    
+{% endblock %}

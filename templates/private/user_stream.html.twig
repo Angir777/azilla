@@ -1,0 +1,802 @@
+{% extends 'private/theme.html.twig' %}
+{% if userSettings.nickShow == 1 %}
+    {% set userName = accountuser.name ~ " " ~ accountuser.surname %}
+{% else %}
+    {% set userName = accountuser.nick %}
+{% endif %}
+{% block title %}{{ userName }}{% endblock %}
+{% block body %}
+    {% block header %}{{ parent() }}{% endblock %}
+    <div class="container my-md-4">
+        <div class="row">
+            {% block menu %}{{ parent() }}{% endblock %}
+            <div class="col-12 col-sm-12 col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-8 order-sm-last order-lg-frist">
+                        {% block ad_2 %}{{ parent() }}{% endblock %}
+                        <div class="bd-content">
+                            {% set userAccountActivation = "" %}
+                            
+                            {% if usersList %}
+                                {% for user in usersList %}
+                                    {% if user.id == globalIdUser %}
+                                        {% set userAccountActivation = user.activated %}
+                                        
+                                        {% if accountuser.id == globalIdUser %}
+                                            {% if usersSettings %}
+                                                {% for settings in usersSettings %}
+                                                    {% if settings.idUser == globalIdUser %}
+                                                        {% if settings.avatar == "null" %}
+                                                            {% set avatarUrl = "../tmp/images/basic_avatar.png" %}
+                                                        {% else %}
+                                                            {% set avatarUrl = "../tmp/users/" %}
+                                                            {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                                        {% endif %}
+                                                        {% if settings.nickShow == 1 %}
+                                                            {% set userName = user.name ~ " " ~ user.surname %}
+                                                        {% else %}
+                                                            {% set userName = user.nick %}
+                                                        {% endif %}
+                                                        <div class="_2jJNpBqXMbbyOiGCElTYxZ mt-3">
+                                                            <a class="dsfsdjfksd66723fdf" href="{{ path('submit_post') }}" title="">
+                                                                <button class="btn zgT5MfUrDMC54cpiCpZFu">{{ 'Dodaj swój post' | trans }} <i class="far fa-paper-plane"></i></button>
+                                                            </a>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                        {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            
+                            <div class="display mt-3">
+                                <div class="display-item">
+                                    <div class="card seamus">
+
+                                        {% if userSettings.background == "null" %}
+                                            {% set backgroundUrl = "" %}
+                                        {% else %}
+                                            {% set backgroundUrl = "background-image: url(../tmp/users/" %}
+                                            {% set backgroundUrl = backgroundUrl ~ userSettings.background %}
+                                            {% set backgroundUrl = backgroundUrl ~ ");" %}
+                                        {% endif %}
+
+                                        {% if userSettings.avatar == "null" %}
+                                            {% set avatarUrl = "../tmp/images/basic_avatar.png" %}
+                                        {% else %}
+                                            {% set avatarUrl = "../tmp/users/" %}
+                                            {% set avatarUrl = avatarUrl ~ userSettings.avatar %}
+                                        {% endif %}
+
+                                        <div class="card-top" style="{{backgroundUrl}}"></div>
+
+                                        {% if userSettings.nickShow == 1 %}
+                                            {% set userName = accountuser.name ~ " " ~ accountuser.surname %}
+                                        {% else %}
+                                            {% set userName = accountuser.nick %}
+                                        {% endif %}
+
+                                        <div class="_34XIqvI8-YT1wukR_W8vj6 particletext bubbles">
+                                            <img class="_2bLCGrtCCJIMNCZgmAMZFM" src="{{avatarUrl}}">
+                                        </div>
+
+                                        <div class="card-profile"></div>
+
+                                        <div class="card-info">
+                                            
+                                            <div class="info-title float-start">
+                                                <h3>{{userName}}</h3>
+                                                <h5>u/{{accountuser.nick|lower}}</h5>
+                                                {% if accountuser.id == globalIdUser %}
+                                                    <a href="{{ path('settings') }}" class="btn btn-md btn-stylephoto btn-block rounded-pill mt-3 mb-2">{{ 'Edytuj tło' | trans }}</a>
+                                                    <a href="{{ path('settings') }}" class="btn btn-md btn-styleavatar btn-block rounded-pill mt-3 mb-2"><i class="fas fa-tshirt"></i> {{ 'Edytuj swój awatar' | trans }}</a>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="row my-hr-0">
+                                                {% if accountuser.id == globalIdUser %}
+                                                    {#
+                                                    <div class="col-12 col-sm-6 col-md-4">
+                                                        <strong><i class="fas fa-meteor"></i> Karma</strong>
+                                                        <button type="button" class="btn btn-user-karma" disabled>
+                                                            <span>1</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6 col-md-4">
+                                                        <strong><i class="fas fa-dollar-sign"></i> Super Karma</strong>
+                                                        <button type="button" class="btn btn-user-superkarma" disabled>
+                                                            <span>0</span>
+                                                        </button>
+                                                    </div>
+                                                    col-sm-12 col-md-4 #}
+                                                    <div class="col-12">
+                                                        <strong><i class="fas fa-cookie-bite"></i> Ciasteczkowy dzień</strong>
+                                                        <button type="button" class="btn btn-user-happyday" disabled>
+                                                            <span>{{accountuser.dateJoining}}</span>
+                                                        </button>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="col-12">
+                                                        <strong><i class="fas fa-cookie-bite"></i> Ciasteczkowy dzień</strong>
+                                                        <button type="button" class="btn btn-user-happyday" disabled>
+                                                            <span>{{accountuser.dateJoining}}</span>
+                                                        </button>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                            </div>
+
+                                            <div class="row info_follow">
+                                                <div class="col-12 col-sm-6 col-md-3">
+                                                    <button type="button" class="btn btn-md btn-btn1 btn-block" data-bs-toggle="modal" data-bs-target="#modalWatched">
+                                                        <strong id="user-watched">{{userWatched}}</strong>
+                                                        <br>Obserwujących
+                                                    </button>  
+                                                </div>
+                                                <div class="col-12 col-sm-6 col-md-3">
+                                                    <button type="button" class="btn btn-md btn-btn1 btn-block" data-bs-toggle="modal" data-bs-target="#modalFollower">
+                                                        <strong>{{userFollower}}</strong>
+                                                        <br>Obserwuje
+                                                    </button> 
+                                                </div>
+                                                <div class="col-12 col-sm-6 col-md-3">
+                                                    <button type="button" id="postsUrl" class="btn btn-md btn-btn1 btn-block">
+                                                        <strong>{{userPostsCount}}</strong>
+                                                        <br>Posty
+                                                    </button> 
+                                                </div>
+                                                <div class="col-12 col-sm-6 col-md-3">
+                                                    <button type="button" id="postsUrl" class="btn btn-md btn-btn1 btn-block" data-bs-toggle="modal" data-bs-target="#modalComments">
+                                                        <strong>{{userCommentsCount}}</strong>
+                                                        <br>Komentarze
+                                                    </button> 
+                                                </div>
+                                            </div>
+
+                                            <div class="row info-bio">
+                                                {{userSettings.userDescription}}
+                                            </div>
+
+                                            {% if accountuser.nick != globalUserNick %}
+  
+                                                <div class="row watch_block">
+                                                    <div class="col-6">
+                                                        <div id="button-watch" class="btn-group watch-user">
+                                                            {% if watchingUsersSwitch == 0 %}
+                                                                <a href="#" class="btn btn-primary-one" id="btn_1" onclick="follow({{accountuser.id}}, 1)"><span id="watch"><i class="far fa-bell"></i> Obserwuj</span></a>
+                                                            {% else %}
+                                                                <a href="#" class="btn btn-primary-two" id="btn_2" onclick="follow({{accountuser.id}}, 2)"><span id="unwatch"><i class="far fa-bell-slash"></i> Przestań obserwować</span></a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div id="button-block" class="btn-group watch-user">
+                                                            {% if blockedUsersSwitch == 0 %}
+                                                                <a href="#" class="btn btn-primary-two" id="btn_3" onclick="follow({{accountuser.id}}, 3)"><span id="block"><i class="far fa-eye-slash"></i> Zablokuj</span></a>
+                                                            {% else %}
+                                                                <a href="#" class="btn btn-primary-one" id="btn_4" onclick="follow({{accountuser.id}}, 4)"><span id="unblock"><i class="far fa-eye"></i> Odblokuj</span></a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div id="button-block" class="btn-group watch-user">
+                                                            <button class="btn btn-sm btn-primary-two" id="btn_3" onclick="report({{ accountuser.id }}, 0)"><span id="block"><i class="fas fa-ban"></i> Zgłoś użytkownika</span></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="my-4"></div>
+                        <div class="bd-content">
+
+                            <div id="posts"></div>
+
+                            {% if showList %}
+                                {% set countPost = 0 %}
+                                {% for post in showList %}
+
+                                    {% set postBlocked = 0 %}
+
+                                    {% if post.availability == 2 %} {# Jeśli to prywatny post #}
+                                        {% if post.idAuthor == app.user.id %}
+                                            {% set postBlocked = 0 %}
+                                        {% else %}
+                                            {% set postBlocked = 1 %}
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if post.availability == 1 %} {# Jeśli to jest post tylko dla obserwatorów #}
+                                        {% if watchingUsersSwitch != 0 %}
+                                            {% set postBlocked = 0 %}
+                                        {% else %}
+                                            {% set postBlocked = 1 %}
+                                        {% endif %}
+                                        {% if post.idAuthor == app.user.id %}
+                                            {% set postBlocked = 0 %}
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {# Jeśli to jest post zawierający spoiler, nsfw lub user jest zablokowany - to nie wyswietli #}
+                                    {% if ( (post.spoiler == 1) and (activeUsersSettings.spoiler == 0) ) or ( (post.nsfw == 1) and (activeUsersSettings.nsfw == 0) ) %}
+                                        {% set postBlocked = 1 %}
+                                    {% else %}
+                                        {% set postBlocked = 0 %}
+                                        {% set countPost = countPost + 1 %}
+                                    {% endif %}
+                                    {% for single in blockedUsersSwitchList %}
+                                        {% if single.idUserB == post.idAuthor %}
+                                            {% set postBlocked = 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if postBlocked == 0 %}
+
+                                        <div id="post_{{ post.id }}" class="post bd-example">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    {% if usersList %}
+                                                        {% for user in usersList %}
+                                                            {% if user.id == post.idAuthor %}
+
+                                                                {% if usersSettings %}
+                                                                    {% for settings in usersSettings %}
+                                                                        {% if settings.idUser == post.idAuthor %}
+
+                                                                            {% if settings.avatar == "null" %}
+                                                                                {% set avatarUrl = "../tmp/images/basic_avatar.png" %}
+                                                                            {% else %}
+                                                                                {% set avatarUrl = "../tmp/users/" %}
+                                                                                {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                                                            {% endif %}
+
+                                                                            {% if settings.nickShow == 1 %}
+                                                                                {% set userName = user.name ~ " " ~ user.surname %}
+                                                                            {% else %}
+                                                                                {% set userName = user.nick %}
+                                                                            {% endif %}
+
+                                                                            <div class="_2jJNpBqXMbbyOiGCElTYxZ">
+                                                                                <a class="_2E_zUw3OUkCKUFrIQwE894" href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">
+                                                                                    <div class="efdkOLo3oigH_95whTYCp">
+                                                                                        <div class="_1cyAeeYDGrx7MPL_jRwKZ _1cvAFWcyUe8hsdIpCmJP0W">
+                                                                                            <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                                                                            <div class="_1XJXnCAngvZLEeLpB3oa4L3">
+                                                                                                <img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="{{avatarUrl}}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+                                                                                <strong class="ms-1"><a href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">{{ userName }}</a>
+                                                                                    {% if user.verification == 1 %}
+                                                                                        <span class="icon verification" title="Konto zweryfikowane"></span>
+                                                                                    {% endif %}
+                                                                                </strong>
+                                                                            </div>
+
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                                {% if post.idAuthor != globalIdUser %}
+                                                    <div class="col-6">
+                                                        <div class="dropdown position-absolute top-0 end-0 rounded-top">
+                                                            <a class="btn btn-post-more dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                                                <li><button class="dropdown-item" onclick="report({{ post.idAuthor }}, {{ post.id }})"><i class="fas fa-ban"></i>&nbsp; Zgłoś użytkownika</button></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="main mt-3">
+                                                <h2><a href="{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" title="{{ post.title|lower }}">{{ post.title }}</a></h2>
+                                                
+                                                <p>{{ post.text }}</p>
+                                            
+                                                {% if post.urlVideo != "none" %}
+                                                    <video class="ratio ratio-16x9" controls>
+                                                        <source src="/tmp/users/{{ post.urlVideo }}" type="video/mp4">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                {% endif %}
+
+                                                {% if post.urlPhotos != "none" %}
+                                                    <div class="row photo-gallery">
+                                                        <div class="col-12">
+                                                            <a class="example-image-link" href="/tmp/users/{{ post.urlPhotos }}" data-lightbox="example-set{{post.id}}" data-title="">
+                                                                <img class="example-image" src="/tmp/users/{{ post.urlPhotos }}" alt=""/>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+
+                                                {% if post.url != "none" %}
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <a class="example-image-link" href="{{post.url}}" target="_blank" rel="nofollow">{{post.url}}</a>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="main mt-3">
+                                                <div class="hashtags">
+                                                    {% if tagsList %}
+                                                        {% for tag in tagsList %}
+                                                            {% if tag.idPost == post.id %} 
+                                                                {# Link do wpisów o takim samym hashtagu #}
+                                                                <a href="{{ path('get_hashtag', {'hashtag_url':tag.tagUrl|lower}) }}" title="hashtag {{ tag.tagName }}">#{{ tag.tagName }}</a>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="group mt-2">
+                                                    {% if groupsList %}
+                                                        {% for group in groupsList %}
+                                                            {% if group.idPost == post.id %}
+                                                                {# Link do wpisów o takim samej grupie #}
+                                                                <a href="{{ path('get_group', {'group_url':group.groupUrl|lower}) }}" title="group {{ group.groupName }}"><i class="fas fa-users"></i> {{ group.groupName }}</a>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="date mt-3 pb-2">
+                                                {{ post.dateAdded }} · {{ post.timeAdded }}
+                                            </div>
+                                            <div class="buttons mt-3">
+                                                <ul class="nav nav-pills nav-fill">
+                                                    <li class="nav-item pe-2">
+                                                        <a href="{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}">
+                                                            <button type="button" class="btn btn-comment">
+                                                                <i class="far fa-comments"></i>
+                                                                {% set countComments = 0 %}
+                                                                {% if commentsList %}
+                                                                    {% for comments in commentsList %}
+                                                                        {% if comments.idPost == post.id %}
+                                                                           {% set countComments = countComments + 1 %}          
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                                {{countComments}}
+                                                            </button>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item pe-2">
+                                                        {% set voted = '' %}
+                                                        {% if ratingList %}
+                                                            {% for rating in ratingList %}
+                                                                {% if rating.idPost == post.id %}
+                                                                    {% if rating.idUser == app.user.id %}
+                                                                        {% if rating.rating == 0 %}
+                                                                            {% set voted = 'voted' %}
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        <button type="button" id="btn_unlike_{{ post.id }}" class="btn btn-unlike {{voted}}" onclick="rating({{ post.id }}, 'unlike')" 
+                                                        {% if userAccountActivation == 0 %}disabled{% endif %}>
+                                                            <i class="far fa-thumbs-down"></i>
+                                                            <span id="unlike_{{ post.id }}">{{ post.numberDislikes }}</span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        {% set voted = '' %}
+                                                        {% if ratingList %}
+                                                            {% for rating in ratingList %}
+                                                                {% if rating.idPost == post.id %}
+                                                                    {% if rating.idUser == app.user.id %}
+                                                                        {% if rating.rating == 1 %}
+                                                                            {% set voted = 'voted' %}
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        <button type="button" id="btn_like_{{ post.id }}" class="btn btn-like {{voted}}" onclick="rating({{ post.id }}, 'like')" 
+                                                        {% if userAccountActivation == 0 %}disabled{% endif %}>
+                                                            <i class="far fa-thumbs-up"></i>
+                                                            <span id="like_{{ post.id }}">{{ post.numberLikes }}</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="buttons mt-3">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-share dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fas fa-share-alt"></i> Udostępnij
+                                                    </button>
+                                                    <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenu2">
+                                                        <li>
+                                                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://azilla.pl{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" target="_blank" rel="nofollow">
+                                                                <button class="dropdown-item" type="button">
+                                                                    <i class="fab fa-facebook-f"></i> FACEBOOK
+                                                                </button>
+                                                            </a>
+                                                        </li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li>
+                                                            <a href="https://twitter.com/intent/tweet?text=title&amp;url=https://azilla.pl{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" target="_blank" rel="nofollow">
+                                                                <button class="dropdown-item" type="button">
+                                                                    <i class="fab fa-twitter"></i> TWITTER
+                                                                </button>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                                {% if countPost == 0 %}
+                                    <div class="alert alert-normal" role="alert">
+                                        <span class="alert-text">{{ 'Użytkownik nic nie dodał lub ustawienia Twojego konta nie pozwalają na wyświetlanie określonych treści.' | trans }}</span>
+                                    </div>
+                                {% endif %}
+
+                            {% else %}
+
+                            {% endif %}
+
+                            <div class="justify-content-center">
+                                {{ knp_pagination_render(showList) }}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-4 mb-4 order-sm-frist order-lg-last">
+                        {% if groupUserWatching %} 
+                            <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX mt-widget" data-redditstyle="true">
+                                <div class="TmgZY6tDcdErbE5d7E0HJ">
+                                    <div class="hpxKmfWP2ZiwdKaWpefMn"></div>
+                                    <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                        <div class="_2TC7AdkcuxFIFKRO_VWis8 mt-3 pt-3 pb-3">
+                                            <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Grupy, które śledzi użytkownik' | trans }}</span>
+                                            <div class="mt-2">
+                                                {% for group in groupUserWatching %}
+                                                    {% for singlegroup in groupsAll %}
+                                                        {% if group.idGroup == singlegroup.id %}
+                                                            <a class="badge rounded-pill badge-tag" href="{{ path('get_group', {'group_url':singlegroup.url}) }}">{{ singlegroup.name }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% block ad_1 %}{{ parent() }}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRating" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3>HEY!</h3>
+                            {% if usersList %}
+                                {% for user in usersList %}
+                                    {% if user.id == globalIdUser %}
+                                        {% if user.sex == 0 %}
+                                            <h5>Już głosowałeś!</h5>
+                                        {% else %}
+                                            <h5>Już głosowałaś!</h5>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalReport" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>Przyjeliśmy zgłoszenie!</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalWatched" role="dialog">
+        <div class="modal-dialog-scrollable modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="mb-4">{{userWatched}} obserwujących</h3> 
+                    {% if userWatchedList %}
+                        {% for single in userWatchedList %}
+                            {% for user in usersList %}
+                                {% if single.idUserA == user.id %}
+                                    {% for settings in usersSettings %}
+                                        {% if settings.idUser == user.id %}
+                                            {% if settings.avatar == "null" %}
+                                                {% set avatarUrl = "../tmp/images/basic_avatar.png" %}
+                                            {% else %}
+                                                {% set avatarUrl = "../tmp/users/" %}
+                                                {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                            {% endif %}
+                                            {% if settings.nickShow == 1 %}
+                                                {% set userName = user.name ~ " " ~ user.surname %}
+                                            {% else %}
+                                                {% set userName = user.nick %}
+                                            {% endif %}
+                                            
+                                            <div class="row mb-2 user-spacing">
+                                                <div class="col-2 col-sm-2 my-auto">
+                                                    <div class="_2jJNpBqXMbbyOiGCElTYxZ asdkasd2">
+                                                        <a class="_2E_zUw3OUkCKUFrIQwE894 sssdadas" href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">
+                                                            <div class="efdkOLo3oigH_95whTYCp">
+                                                                <div class="_1cyAeeYDGrx7MPL_jRwKZ _1cvAFWcyUe8hsdIpCmJP0W">
+                                                                    <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                                                    <div class="_1XJXnCAngvZLEeLpB3oa4L">
+                                                                        <img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="{{avatarUrl}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-sm-7 my-auto">
+                                                    <strong class="ms-1">{{ userName }}</strong>
+                                                </div>
+                                                <div class="col-4 col-sm-3 my-auto">
+                                                    <a href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}" class="btn btn-primary btn-sm">Zabacz profil</a>
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalFollower" role="dialog">
+        <div class="modal-dialog-scrollable modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="mb-4">{{userFollower}} obserwuje</h3> 
+                    {% if userFollowerList %}
+                        {% for single in userFollowerList %}
+                            {% for user in usersList %}
+                                {% if single.idUserB == user.id %}
+                                    {% for settings in usersSettings %}
+                                        {% if settings.idUser == user.id %}
+                                            {% if settings.avatar == "null" %}
+                                                {% set avatarUrl = "../tmp/images/basic_avatar.png" %}
+                                            {% else %}
+                                                {% set avatarUrl = "../tmp/users/" %}
+                                                {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                            {% endif %}
+                                            {% if settings.nickShow == 1 %}
+                                                {% set userName = user.name ~ " " ~ user.surname %}
+                                            {% else %}
+                                                {% set userName = user.nick %}
+                                            {% endif %}
+                                            
+                                            <div class="row mb-2 user-spacing">
+                                                <div class="col-2 col-sm-2 my-auto">
+                                                    <div class="_2jJNpBqXMbbyOiGCElTYxZ asdkasd2">
+                                                        <a class="_2E_zUw3OUkCKUFrIQwE894 sssdadas" href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">
+                                                            <div class="efdkOLo3oigH_95whTYCp">
+                                                                <div class="_1cyAeeYDGrx7MPL_jRwKZ _1cvAFWcyUe8hsdIpCmJP0W">
+                                                                    <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                                                    <div class="_1XJXnCAngvZLEeLpB3oa4L">
+                                                                        <img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="{{avatarUrl}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-sm-7 my-auto">
+                                                    <strong class="ms-1">{{ userName }}</strong>
+                                                </div>
+                                                <div class="col-4 col-sm-3 my-auto">
+                                                    <a href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}" class="btn btn-primary btn-sm">Zabacz profil</a>
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalComments" role="dialog">
+        <div class="modal-dialog-scrollable modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="mb-4">{{userCommentsCount}} komentarze</h3> 
+                    {% if userCommentsList %}
+                        {% for single in userCommentsList %}
+                            {% for singlePost in userPostsList %}
+                                {% if singlePost.id == single.idPost %}
+                                    <div class="row user-spacing">
+                                        <div class="col-12 mt-2 my-auto">
+                                            <small>{{ single.date }}</small>
+                                        </div>
+                                        <div class="col-8 col-sm-9 my-auto">
+                                            <p>"{{ single.content }}"</p>
+                                        </div>
+                                        <div class="col-4 col-sm-3 mb-4 my-auto">
+                                            <a href="{{ path('single_post', {'post_id':singlePost.id, 'post_title':singlePost.postUrl}) }}#comment_{{single.id}}" class="btn btn-primary btn-sm float-end">Przejdź do wpisu</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    
+    {{ parent() }}
+
+    <script>
+        $("#postsUrl").click(function(e) { 
+            $('html,body').animate({ scrollTop: $("#posts").offset().top-150 },'slow');           
+        });
+    </script>
+                    {#<script>
+                        $(document).ready(function(){
+                            $('#modalRating').modal('show');
+                        });
+                    </script>#}
+
+    <!-- rating -->
+    <script>
+        function rating(post_id, type){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200){
+                    if(xhttp.responseText != "none"){
+                        document.getElementById(type+'_'+post_id).innerHTML = xhttp.responseText;
+                        if (type == 'like')
+                            document.getElementById('btn_'+type+'_'+post_id).style.background='#67b8ff';
+                        else if (type == 'unlike')
+                            document.getElementById('btn_'+type+'_'+post_id).style.background='#ff5148';
+                    }else{
+                        $('#modalRating').modal('show');
+                        setTimeout(function() {$('#modalRating').modal('hide');}, 2000);
+                    }
+                }
+            }
+            // generate url path - in future chceck to use with FOSJsRoutingBundle
+            {% set h1 = '0' %}
+            {% set h2 = 'like' %}
+            var url = "{{ path('rating_system', {'post_id':h1, 'type':h2}) }}"; 
+            url = url.replace("0", post_id);
+            url = url.replace("like", type);
+            // ajax send
+            xhttp.open("GET", url);
+            xhttp.send();
+        }
+    </script>
+
+    <!-- follow -->
+    <script>
+        function follow(id_user_b, type){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200){
+                    if (type == 1)
+                        document.getElementById('button-watch').innerHTML = '<a href="#" class="btn btn-primary-two" id="btn_2" onclick="follow({{accountuser.id}}, 2)"><span id="unwatch"><i class="far fa-bell-slash"></i> Przestań obserwować</span></a>';
+                    else if (type == 2)
+                        document.getElementById('button-watch').innerHTML = '<a href="#" class="btn btn-primary-one" id="btn_1" onclick="follow({{accountuser.id}}, 1)"><span id="watch"><i class="far fa-bell"></i> Obserwuj</span></a>';
+                    else if (type == 3)
+                        document.getElementById('button-block').innerHTML = '<a href="#" class="btn btn-primary-one" id="btn_4" onclick="follow({{accountuser.id}}, 4)"><span id="unblock"><i class="far fa-eye"></i> Odblokuj</span></a>';
+                    else if (type == 4)
+                        document.getElementById('button-block').innerHTML = '<a href="#" class="btn btn-primary-two" id="btn_3" onclick="follow({{accountuser.id}}, 3)"><span id="block"><i class="far fa-eye-slash"></i> Zablokuj</span></a>';
+
+                    if(xhttp.responseText != "none"){
+                        document.getElementById('user-watched').innerHTML = xhttp.responseText;
+                    }
+                }
+            }
+            // generate url path
+            {% set h1 = '00' %}
+            {% set h2 = '01' %}
+            var url = "{{ path('follow_system', {'id_user_b':h1, 'type':h2}) }}"; 
+            url = url.replace("00", id_user_b);
+            url = url.replace("01", type);
+            // ajax send
+            xhttp.open("GET", url);
+            xhttp.send();
+        }
+
+        function initparticles() {
+           bubbles();
+        }
+
+        /*The measurements are ... whack (so to say), for more general text usage I would generate different sized particles for the size of text; consider this pen a POC*/
+
+        function bubbles() {
+           $.each($(".particletext.bubbles"), function(){
+              var bubblecount = ($(this).width()/50)*10;
+              for(var i = 0; i <= bubblecount; i++) {
+                 var size = ($.rnd(40,80)/10);
+                 $(this).append('<span class="particle" style="top:' + $.rnd(20,80) + '%; left:' + $.rnd(10,95) + '%;width:' + size + 'px; height:' + size + 'px;animation-delay: ' + ($.rnd(0,30)/10) + 's;"></span>');
+              }
+           });
+        }
+
+        jQuery.rnd = function(m,n) {
+              m = parseInt(m);
+              n = parseInt(n);
+              return Math.floor( Math.random() * (n - m + 1) ) + m;
+        }
+
+        initparticles();
+    </script>
+
+{% endblock %}

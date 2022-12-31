@@ -1,0 +1,296 @@
+{# public stream #}
+
+{% extends 'private/theme.html.twig' %}
+
+{% block title %}{{ 'Wiadomości' | trans }} {{conversation}}{% endblock %}
+
+{% block stylesheets %}
+    
+    {{ parent() }}
+
+    <!-- emoji -->
+    <link href="{{ asset('dist/emoji-picker-main/lib/css/emoji.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+    {% block header %}{{ parent() }}{% endblock %}
+
+    <div class="container my-md-4">
+        <div class="row">
+            
+            {% block menu %}{{ parent() }}{% endblock %}
+
+            <div class="col-12 col-sm-12 col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-8 order-sm-last order-lg-frist">
+
+                        {% if error_message_1 is defined %}
+                            <div id="hideMessage" style="display: block;">
+                                <div class="alert alert-danger" role="alert">
+                                    <h6 class="alert-heading">{{ 'Błąd!' | trans }}</h6>
+                                    <hr>
+                                    <span class="alert-text">{{ 'Nie możesz dodać pustej wiadomości.' | trans }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div id="message_info"></div>
+
+                        <div class="wrapper mt-3 mb-4">
+                            <section class="chat-area">
+                                <header>
+                                    <a href="{{ path('messages') }}" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+                                    {% if usersList %}
+                                        {% for user in usersList %}
+                                            {% if user.id == userIdForMessage %}
+                                                {% set userAccountActivation = user.activated %}
+                                                {% if usersSettings %}
+                                                    {% for settings in usersSettings %}
+                                                        {% if settings.idUser == userIdForMessage %}
+                                                            {% if settings.avatar == "null" %}
+                                                                {% set avatarUrl = "../../tmp/images/basic_avatar.png" %}
+                                                            {% else %}
+                                                                {% set avatarUrl = "../../tmp/users/" %}
+                                                                {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                                            {% endif %}
+                                                            {% if settings.nickShow == 1 %}
+                                                                {% set userName = user.name ~ " " ~ user.surname %}
+                                                            {% else %}
+                                                                {% set userName = user.nick %}
+                                                            {% endif %}
+                                                            <img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="{{avatarUrl}}"> 
+                                                            <div class="details"><span>{{userName}}{% if user.verification == 1 %}<span class="icon verification" title="Konto zweryfikowane"></span>{% endif %}</span></div>  
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </header>
+                                <div id="chat" class="chat-box">
+                                    {% for message in messages %}
+
+                                        {% if message.idUser == globalIdUser %}
+
+                                            <div class="chat outgoing">
+                                                <div class="details">
+                                                    <p data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{message.date}}">{{message.msg}}</p>
+                                                </div>
+                                            </div>
+
+                                        {% else %}
+
+                                            <div class="chat incoming">
+                                                <div class="details">
+                                                    <p data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{message.date}}">{{message.msg}}</p>
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+
+                                    {% else %}
+
+                                        <div id="no-message" class="text">Brak dostępnych wiadomości. Po wysłaniu wiadomości pojawią się tutaj.</div>
+
+                                    {% endfor %}
+                                </div>
+                                <form id="form_message" class="typing-area" action="{{ path('system_messages') }}" method="POST">
+                                    <input type="text" id="conversation" name="conversation" value="{{conversation}}" hidden>
+                                    <div class="lead emoji-picker-container">
+                                        <textarea data-emojiable="true" data-emoji-input="unicode" id="message" name="message" class="input-field" cols="30" rows="2" placeholder="Napisz wiadomość tutaj..." autocomplete="off" required></textarea>
+                                    </div>
+                                    <button id="sendMessage" type="submit" name="sendMessage"><i class="fab fa-telegram-plane"></i></button>
+                                </form>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-4 order-sm-frist order-lg-last">
+                        <form class="position-relative me-auto mt-3 mb-3" action="{{ path('search', {'type_search':'conversation'}) }}" method="POST">
+                          <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+                          <div class="search-input">
+                            <input type="search" name="search" class="form-control i-w-max" id="search_conversation" placeholder="Szukaj użytkownika" aria-label="{{ 'Szukaj użytkownika' | trans }}" autocomplete="off" required>
+                            <div id="showConversations" class="menu_search"></div>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalSearchError" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3>Nic nie znaleziono.</h3><h5>Spróbuj wyszukać w inny sposób.</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalSearchErrorTwo" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3>Wystąpił błąd.</h3><h5>Spróbuj wyszukać w inny sposób.</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- emoji -->
+    <script src="{{ asset('dist/emoji-picker-main/lib/js/config.js') }}"></script>
+    <script src="{{ asset('dist/emoji-picker-main/lib/js/util.js') }}"></script>
+    <script src="{{ asset('dist/emoji-picker-main/lib/js/jquery.emojiarea.js') }}"></script>
+    <script src="{{ asset('dist/emoji-picker-main/lib/js/emoji-picker.js') }}"></script>
+    <script>
+      $(function() {
+        window.emojiPicker = new EmojiPicker({
+          emojiable_selector: '[data-emojiable=true]',
+          assetsPath: "{{ asset('dist/emoji-picker-main/lib/img') }}",
+          popupButtonClasses: 'far fa-laugh'
+        });
+        window.emojiPicker.discover();
+      });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+          $('[data-bs-toggle="tooltip"]').tooltip()
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#form_message").submit(function(event){
+                var formData={
+                    conversation: $("#conversation").val(),
+                    message: $("#message").val(),
+                };
+
+                var url = "{{ path('system_messages') }}"; 
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    dataType: "json",
+                    encode: true,
+                }).done(function (data){
+                    if (!data.success){
+                        if(data.errors.conversation){
+                            $("#message_info").append(
+                                '<div id="hideMessage" style="display: block;"><div class="alert alert-danger" role="alert"><h6 class="alert-heading">Błąd!</h6><hr><span class="alert-text">' + data.errors.conversation + '</span></div></div>'
+                            );
+                            setTimeout(function(){$('#hideMessage').fadeOut('fast');}, 5000);
+                        }
+                        if(data.errors.message){
+                            $("#message_info").append(
+                                '<div id="hideMessage" style="display: block;"><div class="alert alert-danger" role="alert"><h6 class="alert-heading">Błąd!</h6><hr><span class="alert-text">' + data.errors.message + '</span></div></div>'
+                            );
+                            setTimeout(function(){$('#hideMessage').fadeOut('fast');}, 5000);
+                        }
+                    }else{
+                        $(".emoji-wysiwyg-editor").html('');
+                        $("#chat").prepend('<div class="chat outgoing"><div class="details"><p>' + data.message + '</p></div></div>');
+                        $("#form_message")[0].reset();
+                        $("#no-message").addClass("hide");
+                    }
+                });
+            event.preventDefault();
+          });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            function load_messages(view = ''){
+                var generate_url = "{{ path('load_messages', {'conversation':conversation}) }}"; 
+                $.ajax({
+                    url:generate_url,
+                    method:"POST",
+                    data:{view:view},
+                    dataType:"json",
+                    success:function(data)
+                    {
+                        $('.chat-box').html(data.messages);
+                    }
+                });
+            }
+            load_messages();
+            $(document).on('click', '#message', function(){
+                load_messages();
+            });
+            setInterval(function(){ 
+                load_messages(); 
+            }, 5000);
+        });
+    </script>
+
+    <script type="text/javascript">
+      $('#search_conversation').keyup(function(){
+          var query1 = $(this).val();
+          if(query1 != ''){
+              $.ajax({
+                  url:"{{ path('search_header_conversation') }}",
+                  method:"POST",
+                  data:{query:query1},
+                  success:function(data){
+                      $('#showConversations').fadeIn();
+                      $('#showConversations').html(data);
+                  }
+              });
+          }else{
+              $('#showConversations').fadeIn();
+              $('#showConversations').html("");
+          }
+      });
+      $(document).on('click', '.item7', function(){
+          $('#search_conversation').val($(this).text());
+          $('#showConversations').fadeOut();
+      });
+    </script>
+
+    {% if info_error_search is defined %}
+        <!-- search modal -->
+        <script>
+            $(document).ready(function(){
+                $('#modalSearchError').modal('show');
+                setTimeout(function() {$('#modalSearchError').modal('hide');}, 4000);
+            });
+        </script>
+    {% endif %}
+    {% if info_error_conversation is defined %}
+        <!-- search modal -->
+        <script>
+            $(document).ready(function(){
+                $('#modalSearchErrorTwo').modal('show');
+                setTimeout(function() {$('#modalSearchErrorTwo').modal('hide');}, 4000);
+            });
+        </script>
+    {% endif %}
+
+{% endblock %}

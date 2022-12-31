@@ -1,0 +1,209 @@
+{% extends 'public/theme.html.twig' %}
+{% block title %}{{ ' · Regulamin' | trans }}{% endblock %}
+{% block body %}
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+      	{% block images %}{{ parent() }}{% endblock %}
+        <div class="col-sm-12 col-md-12 col-lg-4 d-md-block c-two">
+         	<div class="c-two-text text-black">
+            	<h1>{{ 'Regulamin' | trans }}</h1>
+          	</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 c-three">
+        	<div class="content-word">
+        		<div class="jumbotron">
+        			<a class="btn btn-sm btn-dark mb-3" href="{{ path('security_login') }}" title="{{ 'Powrót' | trans }}">{{ 'Powrót na stronę logowania' | trans }}</a>
+        			<div class="tab-content">
+						<p class="lead">Portal internetowy dostępny pod adresem https://azilla.pl udostępniony jest przez Usługodawcę na zasadach określonych niniejszym dokumentem stanowiącym regulamin w myśl ustawy z dnia 18 lipca  2002 r. o świadczeniu usług drogą elektroniczną (zwany dalej „Regulaminem”).</p>
+						<p>Niniejszy Regulamin określa zasady korzystania z Portalu, rodzaje usług elektronicznych świadczonych za pośrednictwem Portalu oraz prawa i obowiązki użytkowników oraz Usługodawcy. Zapoznanie się z niniejszym Regulaminem stanowi obowiązek każdego użytkownika Portalu.
+						<p>Dane kontaktowe Usługodawcy: adres e-mail: kontakt@azilla.pl</p>
+
+<strong>Spis treści</strong>
+<ol type="1">
+	<li>Definicje</li>
+	<li>Postanowienia ogólne</li>
+	<li>Ogólne warunki świadczenia usług</li>
+	<li>Rejestracja. Konto i Profil użytkownika</li>
+	<li>Blokada lub usunięcie Konta użytkownika</li>
+	<li>Korzystanie z Usług</li>
+	<li>Oferty Użytkowników</li>
+	<li>Ceny i warunki płatności</li>
+	<li>Odpowiedzialność Usługodawcy</li>
+	<li>Odstąpienie od umowy</li>
+	<li>Postępowanie reklamacyjne</li>
+	<li>Własność intelektualna</li>
+	<li>Postanowienia końcowe</li>
+</ol>
+<br>
+
+<p class="font-weight-bold text-center">{{ '§1. Definicje' | trans }}</p>
+<ol>
+	<li>Portal internetowy (Portal) - portal internetowy działający pod adresem https://azilla.pl.</li>
+	<li>Usługodawca – Błażej Skrzypniak prowadzący działalność nierejestrowaną, posiadający: adres do doręczeń: Biniew 22, 63-410 Ostrów Wielkopolski 2; adres poczty elektronicznej: kontakt@azilla.pl.</li>
+	<li>Użytkownik lub Usługobiorca – pełnoletnia osoba fizyczna korzystająca z Portalu.</li>
+	<li>Usługa – usługa świadczona drogą elektroniczną przez Usługodawcę na rzecz Użytkownika za pośrednictwem Portalu, w tym funkcjonalności Portalu dostępne dla zarejestrowanych Użytkowników.</li>
+	<li>Konto użytkownika – zbiór zasobów w systemie teleinformatycznym Usługodawcy, w którym gromadzone są informacje na temat Użytkownika.</li>
+	<li>Profil - zespół informacji, danych i innych elementów prezentujących i opisujących danego Użytkownika tworzony na podstawie informacji zamieszczonych przez Użytkownika na jego Koncie użytkownika, dostępny dla innych Użytkowników Portalu.</li>
+	<li>Usługi płatne – usługi, których świadczenie uwarunkowane jest wniesieniem opłaty przez Użytkownika.</li>
+	<li>Cennik – cennik Usług płatnych dostępny na stronach Portalu.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§2. Postanowienia ogólne' | trans }}</p>
+<ol>
+	<li>Usługodawca zobowiązuje się do świadczenia usług na rzecz Użytkownika w zakresie i na warunkach określonych w Regulaminie.
+	<li>Użytkownik zobowiązuje się do korzystania z Portalu zgodnie z zasadami określonymi w Regulaminie, obowiązującymi przepisami prawa i zasadami współżycia społecznego.</li>
+	<li>Korzystanie z Portalu oraz Usług oznacza akceptację przez Użytkownika warunków określonych w Regulaminie oraz Polityce prywatności.</li>
+	<li>Usługodawca przestrzega zasady ochrony danych osobowych Użytkowników przewidziane rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dn. 27.04.2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE. Użytkownik wyraża zgodę na gromadzenie, przechowywanie i przetwarzanie przez Usługodawcę danych osobowych w celu realizacji usługi. Szczegółowe zasady przetwarzania danych osobowych Użytkowników określa Polityka prywatności Portalu. Usługodawca może wykorzystać dane Użytkownika w celu marketingu usług jedynie za wyraźną zgodą Użytkownika lub w oparciu o właściwe przepisy prawa.</li>
+	<li>Zakazane jest dostarczanie przez Użytkownika do Portalu treści o charakterze bezprawnym. Użytkownik zobowiązany jest do korzystania ze stron internetowych Usługodawcy w  sposób niezakłócający ich funkcjonowania, w szczególności poprzez nieużywanie określonego oprogramowania (w tym oprogramowania złośliwego) lub urządzeń.</li>
+	<li>Szczególne zagrożenia związane z korzystaniem z usług drogą elektroniczną to możliwość uzyskania przez nieuprawnione osoby dostępu do danych transmitowanych przez sieć lub przechowywanych na dołączonych do sieci komputerach i ingerencji w te dane, co może spowodować w szczególności ich utratę, nieuprawnioną zmianę lub uniemożliwienie korzystania z usług oferowanych z wykorzystaniem Portalu.</li>
+	<li>Użytkownik zakładając konto musi potwierdzić, że jest pełnoletni i ma ukończone 18 lat. Jest to niezbędny wymóg do założenia konta.</li>
+  	<li>Użytkownicy portalu mają pełną swobodę w publikowaniu swoich treści w serwisie. Podczas publikacji treści użytkownik ma obowiązek oznaczyć stosownym tagiem (SPAN lub NSFW), jeśli publikowany wpis jest niebezpieczny do przeglądania w miejscu publicznym, bądź zawierają treść erotyczną, hard itp. Brak oznaczenia skutkować będzie banem. Użytkownicy ponoszą pełną odpowiedzialność za to co publikują.</li>
+  	<li>Publikowanie treści erotycznych z udziałem nieletnich grozi natychmiastowym i permanentnym zablokowaniem konta oraz zgłoszeniem sprawy do odpowiednich organów państwowych.</li>
+  	<li>Każdy użytkownik ma prawo oceniać i komentować treści innych uzytkowników - oceniać można zarówno na "+" jak i na "-".</li>
+  	<li>Użytkownik ma prawo zablokować innego użytkownika serwisu, jeśli nie chce oglądać publikowanych przez niego treści bądź wiadomości.</li>
+  	<li>Jeśli jakiś wpis ma skrajną ilość minusów, Usługodawca zastrzega sobie prawo do usunięcia takiej treści na prośbę zdecydowanej większości użytkowników.</li>
+  	<li>Usługodawca portalu nie ponosi odpowiedzialności za podanie nieprawdziwych danych przez użytkownika podczas zakładania konta w serwisie azilla.pl oraz nie odpowiada za materiały publikowane przez użytkowników.</li>
+  	<li>Serwis azilla.pl ma służyć do wymiany informacji i opinii, a nie na wzajemnym szczuciu się, wyzwiskach i wulgaryzmach. Użytkownicy nie stosujący się do idei portalu dostaną permanentnego bana.</li>
+  	<li>Użytkownik zakładając konto musi potwierdzić że akceptuje regulamin serwisu.</li>
+    <li>Usługodawca portalu, jeśli zajdzie taka potrzeba ma prawo zmodyfikować fundamentalne zasady podane w zakładce "O portalu".</li>
+	<li>Usługodawca portalu nie ponosi odpowiedzialności za podanie nieprawdziwych danych przez użytkownika podczas zakładania konta w serwisie azilla.pl oraz nie odpowiada za materiały publikowane przez użytkowników.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§3. Ogólne warunki świadczenia usług' | trans }}</p>
+<ol>
+	<li>Podstawowym działaniem Usługodawcy jest udostępnianie funkcjonalności Portalu w celu umożliwienia nawiązywania kontaktów, budowania społeczności oraz rozwijania działalności.<br>Usługi świadczone drogą elektroniczną za pośrednictwem Portalu polegają w szczególności na:
+		<ul>
+			<li>umożliwieniu dokonania rejestracji przez Użytkownika w celu aktywacji Konta użytkownika i utrzymania Konta użytkownika w ramach Portalu,</li>
+			<li>umożliwieniu zarejestrowanemu Użytkownikowi dostępu do Portalu, w tym do funkcjonalności Portalu, oferty, aktualności oraz innych informacji zamieszczonych na stronach Portalu oraz do wyświetlania ich na urządzeniu końcowym Użytkownika.</li>
+		</ul>
+	</li>
+	<li>Wymagania techniczne niezbędne do korzystania z usług świadczonych przez Usługodawcę:
+		<ul>
+			<li>urządzenie z dostępem do sieci Internet,</li>
+			<li>przeglądarka internetowa obsługująca pliki Cookies,</li>
+			<li>dostęp do poczty elektronicznej.</li>
+		</ul>
+	</li>
+	<li>Użytkownik ponosi opłaty związane z dostępem do sieci Internet i transmisją danych zgodnie z taryfą swojego dostawcy usług internetowych.</li>
+	<li>Umowa o świadczenie drogą elektroniczną w przedmiocie utrzymania Konta użytkownika zawiązywana jest w momencie dokonania poprawnej rejestracji przez Użytkownika na czas  nieokreślony, tj. do momentu usunięcia Konta użytkownika.</li>
+	<li>Realizacja usługi dostępu do Portalu rozpoczyna się z chwilą wyświetlenia na urządzeniu końcowym Użytkownika treści zawartych na stronach Portalu i ulega zakończeniu z chwilą opuszczenia przez Użytkownika Portalu.</li>
+	<li>Pozostałe Usługi świadczone są na warunkach zgodnych z opisem Usługi dostępnym w Portalu.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§4. Rejestracja. Konto i Profil użytkownika' | trans }}</p>
+<ol>
+	<li>Użytkownikiem Portalu może być wyłącznie osoba po ukończeniu 18 roku życia.</li>
+	<li>Rejestracja dokonywana jest przez Użytkownika poprzez poprawne wypełnienie formularza rejestracji.</li>
+	<li>Użytkownik wypełniając formularz rejestracji zobowiązany jest do podania wyłącznie informacji prawdziwych.</li>
+	<li>Dokonując rejestracji Użytkownik potwierdza zapoznanie się z treścią niniejszego Regulaminu oraz akceptację jego postanowień.</li>
+	<li>Rejestracja dokonywana jest przez Użytkownika jednorazowo.</li>
+	<li>Użytkownik może posiadać wyłącznie jedno konto na dany adres e-mail w ramach Portalu.</li>
+	<li>Użytkownikowi zabrania się przekazywania danych umożliwiających dostęp do Konta użytkownika osobom trzecim.</li>
+	<li>Użytkownik ponosi wyłączną odpowiedzialność związaną z ujawnieniem innym osobom danych umożliwiających logowanie na Koncie użytkownika.</li>
+	<li>Na podstawie danych wprowadzonych przez Użytkownika na jego Koncie tworzony jest Profil Użytkownika. Profil widoczny jest publicznie dla pozostałych Użytkowników Portalu z uwzględnieniem ograniczeń wynikających z indywidualnych ustawień skonfigurowanych przez Użytkownika.</li>
+	<li>Użytkownik wprowadza jakiekolwiek informacje na temat swojej osoby (w tym dane wrażliwe) dobrowolnie. Wprowadzając dane Użytkownik tym samym wyraża zgodę na ich publikację na Portalu. Użytkownik może w każdym czasie modyfikować lub usuwać wprowadzone przez siebie uprzednio informacje.</li>
+	<li>Użytkownik zobowiązany jest do powstrzymywania się od jakichkolwiek działań, które naruszałyby prywatność innych Użytkowników, przede wszystkim polegających na zbieraniu, przetwarzaniu i rozpowszechnianiu informacji o innych Użytkownikach bez ich wyraźnej zgody, z wyjątkiem sytuacji, gdy czynności te są zgodne z przepisami prawa i postanowieniami niniejszego Regulaminu.</li>
+	<li>Użytkownik zobowiązany jest do powstrzymywania się od jakiejkolwiek działalności, która wpływa na automatyzację korzystania z systemów Usługodawcy, w szczególności korzystania ze skryptów w celu dodania obserwujących, wysyłania postów lub wiadomości.</li>
+	<li>Użytkownik zamieszczający jakiekolwiek treści na Portalu zobowiązany jest posiadać prawo do korzystania z tych treści oraz ich publikacji.</li>
+	<li>Użytkownik z chwilą zamieszczenia treści na Portalu udziela Usługodawcy licencji niewyłącznej na korzystanie z treści w zakresie udostępniania ich w ramach Portalu poprzez utrwalanie, zwielokrotnianie oraz rozpowszechnianie na Portalu (w tym publiczne wykonanie, wystawienie, wyświetlenie, odtworzenie, nadawanie oraz emitowanie) w sposób umożliwiający wyświetlanie treści na urządzeniach elektronicznych z wykorzystaniem sieci Internet w każdym miejscu i czasie, niezależnie od liczby oraz formy dostępu przez innych Użytkowników Portalu.</li>
+	<li>Użytkownik udziela licencji wyłącznie w ramach usług świadczonych na Portalu oraz w celu świadczenia ich przez Usługodawcę na rzecz Użytkowników Portalu.</li>
+	<li>Użytkownik wyraża zgodę na dokonywanie przez Usługodawcę zmian w treściach objętych licencją w zakresie w jakim jest to konieczne dla prawidłowego świadczenia usług dostępnych na Portalu.</li>
+	<li>Licencja udzielana jest przez Użytkownika bez ograniczenia czasowego, terytorialnego i liczbowego oraz bez wynagrodzenia dla Użytkownika i innych podmiotów uprawnionych do treści.</li>
+	<li>Licencja wygasa z chwilą usunięcia przez Użytkownika treści z zasobów Portalu.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§5. Blokada lub usunięcie Konta użytkownika' | trans }}</p>
+<ol>
+	<li>W przypadku notorycznego naruszania postanowień niniejszego Regulaminu Usługodawca zastrzega sobie prawo do zablokowania dostępu do Konta użytkownika po uprzednim wezwaniu Użytkownika do zaprzestania naruszeń.</li>
+	<li>Usługodawca ma prawo do usunięcia Konta użytkownika w przypadku, gdy Użytkownik nie spełnił swojego zobowiązania względem Usługodawcy po uprzednim wezwaniu, narusza postanowienia Regulaminu pomimo uprzedniego upomnienia lub w przypadku działania przez Użytkownika na szkodę Usługodawcy lub innych Użytkowników. Usunięcie Konta użytkownika może skutkować zaprzestaniem świadczenia przez Usługodawcę Usług płatnych, których świadczenie jest uwarunkowane posiadaniem aktywnego Konta użytkownika.</li>
+	<li>Użytkownik może w każdym czasie usunąć Konto użytkownika. Usunięcie Konta użytkownika może skutkować zaprzestaniem świadczenia przez Usługodawcę Usług płatnych, których świadczenie jest  uwarunkowane posiadaniem aktywnego Konta użytkownika.</li>
+	<li>W przypadkach, o których mowa w ust. 2 i 3, Użytkownikowi nie przysługuje zwrot płatności uiszczonej Usługodawcy tytułem świadczenia Usługi płatnej.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§6. Korzystanie z Usług' | trans }}</p>
+<ol>
+	<li>Każdy Użytkownik zarejestrowany i z aktywowanym kontem może korzystać z funkcjonalności Portalu nieobjętych dostępem płatnym oraz płatnym po uiszczeniu stosownej opłaty.</li>
+	<li>Usługodawca zastrzega sobie prawo do ograniczania lub rozszerzania funkcjonalności bezpłatnych w każdym czasie. O planowanej zmianie Usługodawca będzie informował Użytkowników za pomocą komunikatów wyświetlanych na Portalu.</li>
+	<li>Użytkownik korzystając z funkcjonalności dostępnych w Portalu, nie może zamieszczać treści: 
+		<ul>
+			<li>nawołujących do popełnienia czynu zabronionego lub pochwala popełnienie takiego czynu,</li>
+			<li>pomawiających inną osobę, grupy osób, instytucje, osoby prawne lub inne podmioty o takie postępowanie lub właściwości, które mogą poniżyć je w opinii publicznej lub narazić na utratę zaufania potrzebnego do wykonywania danego zawodu, działalności czy zajmowania określonego stanowiska</li>
+			<li>znieważających lub zniesławiających inne osoby, a także godzących w dobre imię tych osób</li>
+			<li>propagujących lub nawołujących do nienawiści na tle rasowym, narodowościowym, etnicznym, wyznaniowym albo seksualnym,</li>
+			<li>naruszających prawa autorskie i/lub prawa pokrewne osób trzecich,</li>
+			<li>mających charakter bezprawny,</li>
+			<li>posiadających odnośniki do innych stron internetowych zawierających złośliwe oprogramowanie lub stron internetowych służących do wyłudzania danych,</li>
+			<li>zawierających informacje reklamowe lub marketingowe lub dotyczące działalności konkurencyjnej w stosunku do Usługodawcy.</li>
+		</ul>
+	</li>
+	<li>Dostęp do Usług płatnych uzyskiwany jest przez Użytkownika na jego wyraźne żądanie po dokonaniu płatności zgodnie z Cennikiem Usługodawcy.</li>
+	<li>Dostęp do Usług płatnych udzielany jest w formie subskrypcji (okres abonamentowy) odnawiającej się automatycznie na kolejne okresy abonamentowe lub jednorazowo na czas określony zgodnie z charakterem Usługi płatnej.</li>
+	<li>Okres abonamentowy liczony jest z dokładnością do daty i godziny aktywacji dostępu.</li>
+	<li>Dostęp do Usługi płatnej wygasa po rezygnacji Użytkownika z odnowienia subskrypcji, w przypadku niepowodzenia w pobraniu płatności za pomocą wybranej przez Użytkownika metody płatności lub w przypadku upływu okresu, na jaki Usługa została wykupiona.</li>
+	<li>Rezygnacja z dostępu w formie subskrypcji powinna zostać zgłoszona przez Użytkownika najpóźniej na 3 dni przed końcem trwania bieżącego okresu abonamentowego.</li>
+	<li>Usługodawca zastrzega sobie prawo do ograniczania lub rozszerzania funkcjonalności Usług płatnych. O planowanej zmianie Usługodawca będzie informował Użytkowników za pomocą komunikatów wyświetlanych na Portalu.</li>
+	<li>W przypadku Użytkowników z aktywnym dostępem do Usług płatnych zmiany, o których mowa w ust. 9 wprowadzane będą najwcześniej w kolejnym okresie abonamentowym.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§7. Oferty Użytkowników' | trans }}</p>
+<ol>
+	<li>W ramach korzystania z funkcjonalności umożliwiających zamieszczanie ofert sprzedaży towarów, usług lub ofert pracy, Użytkownik nie może oferować produktów, usług lub pracy, które naruszają obowiązujące przepisy lub dobre obyczaje.</li>
+	<li>Użytkownik nie może oferować towarów obciążanych prawami na rzecz osób trzecich lub co do których nie posiada prawa do rozporządzania poprzez przeniesie prawa własności i wydanie kupującemu.</li>
+	<li>Usługodawca zastrzega sobie prawo do poinformowania odpowiednich organów państwa o fakcie oferowania przez Użytkownika towarów lub usług zakazanych.</li>
+	<li>Usługodawca w żadnych przypadku nie jest stroną umowy zawartej pomiędzy Użytkownikami w związku z zamieszczoną na Portalu ofertą oraz nie odpowiada za niewykonanie lub nienależyte wykonanie takiej umowy przez którąkolwiek ze stron.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§8. Ceny i warunki płatności' | trans }}</p>
+<ol>
+	<li>Ceny Usług płatnych stosowane przez Usługodawcę są wyrażane w polskich złotych (PLN) oraz są cenami brutto.</li>
+	<li>Płatności za Usługi płatne Usługodawca przyjmuje w formie przedpłaty za pomocą metod płatności dostępnych na Portalu.</li>
+	<li>Aktywacja Usługi płatnej następuje w momencie otrzymania przez Usługodawcę informacji od operatora systemu płatności elektronicznych o pozytywnej autoryzacji transakcji.</li>
+	<li>Za moment dokonania płatności uznaje się jej pozytywną autoryzację przez dostawcę systemu płatności elektronicznych.</li>
+	<li>W przypadku wystąpienia konieczność zwrotu środków za transakcję dokonaną przez Użytkownika kartą płatniczą Usługodawca dokona zwrotu na rachunek bankowy przypisany do karty płatniczej Użytkownika.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§9. Odpowiedzialność Usługodawcy' | trans }}</p>
+<ol>
+	<li>Usługodawca informuje, iż zgodnie z art. 15 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną nie jest zobowiązany do sprawdzania przekazywanych, przechowywanych lub udostępnianych przez niego danych, o których mowa w art. 12-14 wskazanej ustawy o ile dane te nie pochodzą od niego.</li>
+	<li>Usługodawca nie ponosi odpowiedzialności za informacje udostępniane przez Użytkowników za pomocą Portalu, w tym wyświetlane na Profilu Użytkownika.</li>
+	<li>Usługodawca nie ponosi odpowiedzialności za treść wiadomości wymienianych przez Użytkowników za pomocą komunikatorów dostępnych na Portalu.</li>
+	<li>Usługodawca nie ponosi odpowiedzialności za zobowiązania Użytkowników wynikające z ich działań na Portalu.</li>
+	<li>Usługodawca nie ponosi odpowiedzialności za dane wprowadzone przez Użytkowników na Portalu i nie odpowiada za czynności dokonane przez Użytkownika, które przyczyniły się do powstania jakiejkolwiek szkody w odniesieniu do tego Użytkownika lub innych Użytkowników bądź osób trzecich albo też uniemożliwiły, albo utrudniły świadczenie usług przez Usługodawcę.</li>
+	<li>Usługodawca nie odpowiada za treść stron internetowych oraz za ewentualne szkody poniesione przez Użytkowników lub osoby trzecie w związku z dostępem do stron internetowych, do których może nastąpić przekierowanie poprzez odnośniki dostępne na Portalu.</li>
+	<li>Usługodawca nie ponosi odpowiedzialności za przerwy w funkcjonowaniu Portalu oraz szkody poniesione przez Użytkownika z tego tytułu, jeżeli zostały spowodowane działaniem siły wyższej, której nie dało się przewidzieć, a w przypadku, gdy wystąpienie siły wyższej było do przewidzenia - gdy nie dało się zapobiec skutkom jej wystąpienia.</li>
+	<li>Ryzyko związane z używaniem, użytkowaniem, posiadaniem i wykorzystaniem informacji udostępnianych na stronach Portalu ponosi Użytkownik. Usługodawca nie ponosi żadnej odpowiedzialności wobec Użytkowników lub osób trzecich z tytułu szkód, zarówno bezpośrednich, jak i pośrednich, związanych z wykorzystaniem informacji udostępnianych na stronach Portalu.</li>
+	<li>W przypadku szkody poniesionej przez Użytkownika, a wynikającej z umyślnego działania Usługodawcy, Usługodawca odpowiada jedynie za rzeczywiste szkody poniesione przez Użytkownika z zastrzeżeniem, iż odpowiedzialność Usługodawcy zostaje ograniczona do wysokości płatności uiszczonej przez Użytkownika za Usługę, chyba że co innego wynika z odrębnych praw przysługujących konsumentom.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§10. Odstąpienie od umowy' | trans }}</p>
+<ol>
+	<li>Każdemu Użytkownikowi przysługuje prawo do odstąpienia od umowy zawartej na odległość lub poza lokalem przedsiębiorstwa Usługodawcy w terminie 14 dni od dnia, w którym zawarto umowę. Do zachowania terminu wystarczy przesłanie oświadczenia na adres siedziby lub adres poczty elektronicznej Usługodawcy.</li>
+	<li>W razie odstąpienia od umowy jest ona uważana za niezawartą, a Użytkownik jest zwolniony od wszelkich zobowiązań (z wyjątkiem sytuacji określonej w ust. 3). Płatności dokonane przez Użytkownika zostaną zwrócone przez Usługodawcę w takie samej formie, w jakiej Użytkownik dokonał zapłaty, chyba że wyrazi zgodę na zwrot płatności w inny sposób, który nie spowoduje dla niego dodatkowych obciążeń. Zwrot następuje w terminie 14 dni od dnia odstąpienia od umowy.</li>
+	<li>W przypadku zrealizowania w pełni usługi przez Usługodawcę na wyraźne żądanie Użytkownika przed upływem terminu do odstąpienia od umowy np. wydanie wirtualnej waluty, zakup skórek do awatara czy aktywacja Usługi płatnej, prawo do odstąpienia od umowy wygasa.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§11. Postępowanie reklamacyjne' | trans }}</p>
+<ol>
+	<li>W przypadku niewykonania lub nienależytego wykonania przez Usługodawcę usług świadczonych za pomocą Portalu, Użytkownik jest uprawniony do złożenia reklamacji drogą elektroniczną na adres kontakt@azilla.pl.</li>
+	<li>Prawidłowo złożona reklamacja powinna zawierać oznaczenie Użytkownika (imię i nazwisko oraz adres poczty elektronicznej), przedmiot reklamacji wraz ze wskazaniem okresu, którego dotyczy reklamacja oraz okoliczności uzasadniające złożenie reklamacji. W przypadku podania niepełnych danych Usługodawca wezwie Użytkownika do uzupełnienia danych w terminie nie dłuższym niż 7 dni.</li>
+	<li>Reklamację rozpatruje Usługodawca w terminie do 14 dni od dnia otrzymania reklamacji.</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§12. Własność intelektualna' | trans }}</p>
+<ol>
+	<li>Wszelkie treści zamieszczone na stronach Portalu (wliczając w to grafikę, teksty, układ stron i logotypy), a nie pochodzące od Użytkowników lub innych dostawców, korzystają z ochrony przewidzianej dla praw autorskich i są wyłączną własnością Usługodawcy. Wykorzystywanie tych treści bez pisemnej zgody Usługodawcy, skutkuje odpowiedzialnością cywilną oraz karną.</li>
+	<li>Użytkownik zobowiązany jest do korzystania z wszelkich treści zamieszczonych w ramach Portalu jedynie w zakresie własnego użytku osobistego. Wykorzystanie treści w innym zakresie jest dopuszczone wyłącznie w przypadku, gdy tak wskazane zostało wyraźnie przez Usługodawcę na stronach Portalu.</li>
+	<li>Korzystanie z Portalu, w tym korzystanie z materiałów tekstowych, graficznych, zdjęć, aplikacji, baz danych czy innych treści, nie oznacza nabycia przez Użytkownika jakichkolwiek praw w odniesieniu do wskazanych treści, a w szczególności nie oznacza nabycia praw autorskich majątkowych, praw pokrewnych lub licencji.</li>
+	<li>Zabronione jest podejmowanie następujących czynności bez wyraźnej zgody Usługodawcy:
+		<ul>
+			<li>kopiowanie i modyfikowanie Portalu lub jego części,</li>
+			<li>rozpowszechnianie w jakikolwiek sposób publikowanych na stronach Portalu treści,</li>
+			<li>pobieranie zawartości baz danych i wtórne jej wykorzystanie w całości lub części.</li>
+		</ul>
+	</li>
+</ol>
+<p class="font-weight-bold text-center">{{ '§13. Postanowienia końcowe' | trans }}</p>
+<ol>
+	<li>Usługodawca zastrzega sobie prawo do zmiany niniejszego Regulaminu. O zmianie Regulaminu Usługodawca powiadomi na Portalu na co najmniej 14 dni przed wejściem w życie zmian w Regulaminie. Zmiana postanowień Regulaminu nie ma zastosowania do Użytkowników, którzy złożyli zamówienie na Usługę w czasie obowiązywania poprzedniej wersji Regulaminu. Zmiana Regulaminu w czasie trwania stosunku umownego o charakterze ciągłym wiąże drugą stronę, jeżeli zostały zachowane wymagania określone w art. 384 Kodeksu cywilnego, a strona nie wypowiedziała umowy w terminie wypowiedzenia wynoszącym 14 dni kalendarzowych.</li>
+	<li>Usługodawca zachowuje sobie prawo do okresowego wyłączania dostępu do Portalu lub wybranych funkcjonalności Portalu w przypadku, gdy jest to niezbędne w celu rozbudowy lub konserwacji zasobów technicznych lub teleinformatycznych Usługodawcę związanych z działaniem Portalu.</li>
+	<li>W pozostałych kwestiach nieuregulowanych zapisami niniejszego Regulaminu mają zastosowanie odpowiednie przepisy prawa polskiego.</li>
+	<li>Spory powstałe w wyniku świadczenia usług na podstawie niniejszego Regulaminu będą rozwiązywane w pierwszej kolejności na drodze polubownej. W przypadku braku polubownego rozwiązania sporu w terminie 2 miesięcy od momentu jego zaistnienia, zostanie on poddany pod rozstrzygnięcie sądowi powszechnemu według siedziby Usługodawcy, jeżeli właściwe przepisy nie stanowią inaczej.</li>
+	<li>Użytkownik będący konsumentem ma prawo do skorzystania z pozasądowych metod rozstrzygania sporów i dochodzenia roszczeń w drodze mediacji lub sądu polubownego. Niezależnie od tego konsument może zwrócić się o pomoc do miejskiego (powiatowego) rzecznika konsumentów. Wszelkie niezbędne informacje można uzyskać na stronie internetowej Urzędu Ochrony Konkurencji i Konsumentów pod adresem www.uokik.gov.pl. Użytkownik będący konsumentem może ponadto skorzystać z elektronicznego sposobu rozwiązywania sporów z Usługodawcą za pośrednictwem platformy ODR dostępnej pod adresem http://ec.europa.eu/consumers/odr/.</li>
+	<li>Aktualizacja regulaminu wchodzi w życie z dniem 01.06.2021r.</li>
+</ol>
+					</p>
+				</div>
+        	</div>
+		</div>
+      </div>
+    </div>
+{% endblock %}

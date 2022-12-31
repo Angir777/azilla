@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Błażej Skrzypniak">
+        <meta name="robots" content="index, follow">
+        <meta name="googlebot" content="index, follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#ffb329">
+        <title>{% block title %}{% endblock %} · azilla.pl</title>
+        <!-- bootstrap core CSS -->
+        <link href="{{ asset('dist/bootstrap5/css/bootstrap.min.css') }}" rel="stylesheet">
+        <!-- custom styles for this template -->
+        <link href="{{ asset('assets/css/main/docs.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/main/styles.css') }}" rel="stylesheet"> 
+        {% for settings in usersSettings %}
+            {% if settings.idUser == globalIdUser %}
+                {% if settings.darkTheme == 0 %}
+                    <link href="{{ asset('assets/css/main/light.css') }}" rel="stylesheet">
+                {% else %}{% endif %}
+            {% endif %}
+        {% endfor %}
+        <link href="{{ asset('dist/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
+        <!-- favicons -->
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
+        <!-- lightbox -->
+        <link href="{{ asset('dist/lightbox2-dev/dist/css/lightbox.min.css') }}" rel="stylesheet">
+        <!-- fontawesome -->
+        <link href="{{ asset('dist/fontawesome-free-5-15-3-web/css/all.css') }}" rel="stylesheet">
+        <!-- other css -->
+        {% block stylesheets %}{% endblock %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HX2D1QP8JC"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-HX2D1QP8JC');
+        </script>
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://azilla.pl">
+        <meta property="og:title" content="azilla.pl · Polski portal społecznościowy">
+        <meta property="og:description" content="Witaj w wolnym zakamarku polskiej sieci! Bez przeszkód wyrażaj tu siebie, kontaktuj się z innymi osobami oraz udostępniaj ważne dla Ciebie informacje.">
+        <meta property="og:image" content="https://azilla.pl/assets/img/azilla_avatar.jpg">
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://azilla.pl">
+        <meta property="twitter:title" content="azilla.pl · Polski portal społecznościowy">
+        <meta property="twitter:description" content="Witaj w wolnym zakamarku polskiej sieci! Bez przeszkód wyrażaj tu siebie, kontaktuj się z innymi osobami oraz udostępniaj ważne dla Ciebie informacje.">
+        <meta property="twitter:image" content="https://azilla.pl/assets/img/azilla_avatar.jpg">
+    </head>
+    <body id="theme-color-base">
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('dist/jquery/jquery-3.5.1.min.js') }}"></script>
+            <script src="{{ asset('dist/bootstrap5/js/bootstrap.bundle.min.js') }}"></script>
+            <script src="{{ asset('dist/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+            <script src="{{ asset('dist/bootstrap5/js/docs.min.js') }}"></script>
+            <script src="{{ asset('dist/lightbox2-dev/dist/js/lightbox-plus-jquery.min.js') }}"></script>
+            <script src="{{ asset('dist/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
+            <script>
+                // sending file button name
+                $(".formFile").filestyle({input: false,buttonText: "Wybierz plik"});
+                // hide alert after 5s
+                setTimeout(function(){$('#hideMessage').fadeOut('fast');}, 5000);
+                // textarea words length
+                function checkWordLen(obj, poz){
+                    var wordLen = 280, len;
+                    $('#message_body_'+poz).keydown(function(event){
+                        len = $('#message_body_'+poz).val().split(/[\s]+/);
+                        if(len.length >= wordLen){ 
+                            if( event.keyCode == 46 || event.keyCode == 8 ){
+                                // allow backspace and delete buttons
+                            }else if(event.keyCode < 48 || event.keyCode > 57 ){
+                                // all other buttons
+                                event.preventDefault();
+                            }
+                        }
+                        wordsLeft = (wordLen) - len.length;
+                        $('.words-left-'+poz).html(wordsLeft+ ' słów pozostało');
+                    });
+                }
+                function checkWordLenTwo(obj, poz){
+                    var wordLen = 100, len;
+                    $('#message_body_'+poz).keydown(function(event){
+                        len = $('#message_body_'+poz).val().split(/[\s]+/);
+                        if(len.length >= wordLen){ 
+                            if( event.keyCode == 46 || event.keyCode == 8 ){
+                                // allow backspace and delete buttons
+                            }else if(event.keyCode < 48 || event.keyCode > 57 ){
+                                // all other buttons
+                                event.preventDefault();
+                            }
+                        }
+                        wordsLeft = (wordLen) - len.length;
+                        $('.words-left-'+poz).html(wordsLeft+ ' słów pozostało');
+                    });
+                }
+                // delete avatar info
+                function submitButtonStyle1(_this){
+                    var chk = document.getElementById("deleteAvatar");
+                    if(chk.checked === true){
+                        _this.style.backgroundColor = "#243241";
+                    }else{
+                        _this.style.backgroundColor = "rgb(255, 179, 41)";
+                    }
+                }
+                // delete background info
+                function submitButtonStyle2(_this){
+                    var chk = document.getElementById("deleteBackground");
+                    if(chk.checked === true){
+                        _this.style.backgroundColor = "#243241";
+                    }else{
+                        _this.style.backgroundColor = "rgb(255, 179, 41)";
+                    }
+                }
+                // back to top
+                var btn = $('#backToTop');
+                $(window).scroll(function() {
+                  if ($(window).scrollTop() > 300) {
+                    btn.addClass('show');
+                  } else {
+                    btn.removeClass('show');
+                  }
+                });
+                btn.on('click', function(e) {
+                  e.preventDefault();
+                  $('html, body').animate({scrollTop:0}, '300');
+                });
+                // report user
+                function report(author_id, post_id){
+                    var query = author_id+"/"+post_id;
+                    var generate_url = "{{ path('report_user') }}";
+                    $.ajax({
+                        url:generate_url,
+                        method:"POST",
+                        data:{query:query},
+                        success:function(data){
+                            $('#modalReport').modal('show');
+                            setTimeout(function() {$('#modalReport').modal('hide');}, 2000);
+                        }
+                    });
+                }
+                {#
+                // delete post
+                function deletePostAuthor(post_id){
+                    var query = post_id;
+                    var generate_url = "{{ path('delete_post_user') }}";
+                    $.ajax({
+                        url:generate_url,
+                        method:"POST",
+                        data:{query:query},
+                        success:function(data){
+                            var x = document.getElementById("post_"+post_id);
+                            x.style.display = "none";
+                        }
+                    });
+                }
+                #}
+            </script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,89 @@
+{% extends 'public/theme.html.twig' %}
+{% block title %}{{ ' · Polski portal · Zaloguj się lub zarejestruj' | trans }}{% endblock %}
+{% block body %}
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+        {% block images %}{{ parent() }}{% endblock %}
+        <div class="col-sm-12 col-md-4 d-none d-sm-none d-md-none d-lg-block c-two">
+            <div class="c-two-text text-black">
+                <h1>{{ 'Witaj w Twoim zakamarku polskiej sieci!' | trans }}</h1>
+                <h2>{{ 'Bez przeszkód wyrażaj tu siebie, kontaktuj się z innymi osobami oraz udostępniaj ważne dla Ciebie informacje.' | trans }}</h2>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-11 col-lg-7 c-three index">
+            <form class="form-signin text-center" method="post">
+                {% set randomize = random(['1', '2', '3', '4', '5', '6', '7', '8']) %}
+                <img src="https://azilla.pl/assets/img/logo/azilla_logo_{{randomize}}.png" alt="azilla_logo" class="responsive pb-2">
+                {% if error_authentication %}
+                    <div id="hideMessage" class="text-left alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>{{ 'Błąd!' | trans }}</strong> <br> {{ error_authentication.messageKey|trans(error_authentication.messageData, 'security') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% endif %}
+                {% if success_activation is defined %}
+                    <div id="hideMessage" class="text-left alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle"></i> <strong>{{ 'Sukces!' | trans }}</strong> <br> {{ 'Twoje konto zostało aktywowane!' | trans }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% endif %}
+                {% if error_activation is defined %}
+                    <div id="hideMessage" class="text-left alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>{{ 'Uwaga!' | trans }}</strong> <br> {{ 'Twoje konto zostało już aktywowane lub nie istnieje!' | trans }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% endif %}
+                {% if success_account_created is defined %}
+                    <div id="hideMessage" class="text-left alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle"></i> <strong>{{ 'Sukces!' | trans }}</strong> <br> {{ 'Twoje konto zostało utworzone!' | trans }} <br> {{ 'Aktywuj je poprzez link z wiadomości e-mail.' | trans }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% endif %}
+                {% if error_ban_1 is defined %}
+                    <div id="hideMessage" class="text-left alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>{{ 'Uwaga!' | trans }}</strong> <br> {{ 'Na Twoje konto został nałożony ban!' | trans }}<br>{{ error_ban_1 }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputEmail" class="sr-only">{{ 'E-mail' | trans }}*</label>
+                            <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control" placeholder="{{ 'E-mail' | trans }}" required autofocus />
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputPassword" class="sr-only">{{ 'Hasło' | trans }}*</label>
+                            <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="{{ 'Hasło' | trans }}" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-dark btn-block" type="submit">{{ 'Zaloguj' | trans }}</button>
+                        </div>
+                        <p class="mb-3"><small>{{ 'Nie pamietasz hasła?' | trans }} <a href="{{ path('security_password_reset') }}" title="{{ 'Resetuj hasło' | trans }}">{{ 'Resetuj hasło' | trans }}</a>.</small></p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <a href="{{ path('security_register') }}" title="{{ 'Utwórz nowe konto' | trans }}" class="btn btn-lg btn-red btn-block" type="submit">{{ 'Utwórz nowe konto' | trans }}</a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-2">
+                <p>
+                    <small>
+                        <a href="{{ path('security_regulations') }}" title="{{ 'Regulamin' | trans }}">{{ 'Regulamin' | trans }}</a> |
+                        <a href="{{ path('security_privacy') }}" title="{{ 'Polityka prywatności' | trans }}">{{ 'Prywatność' | trans }}</a> |
+                        <a href="{{ path('security_about') }}" title="{{ 'O portalu' | trans }}">{{ 'O portalu' | trans }}</a>
+                    </small>
+                </p>
+                <small class="mt-5 mb-3"><strong>azilla.pl</strong> &copy; {{ "now"|date("Y") }}</small>
+            </form>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">setTimeout(function() {$('#hideMessage').fadeOut('fast');}, 5000);</script>
+{% endblock %}

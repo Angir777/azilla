@@ -1,0 +1,429 @@
+{% extends 'private/theme.html.twig' %}
+{% block title %}{{ 'Najnowsze wpisy' | trans }}{% endblock %}
+{% block body %}
+	{% block header %}{{ parent() }}{% endblock %}
+    <div class="container my-md-4">
+        <div class="row">
+            {% block menu %}{{ parent() }}{% endblock %}
+            <div class="col-12 col-sm-12 col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-8 order-sm-last order-lg-frist">
+                        {% block ad_2 %}{{ parent() }}{% endblock %}
+                        <div class="bd-content">
+                            {% set userAccountActivation = "" %} {# Czy user aktywował swoje konto? Jeśli '0' to nie może dodawać postów ani komentować i oceniać #}
+                            {% if usersList %}
+                                {% for user in usersList %}
+                                    {% if user.id == globalIdUser %}
+                                        {% set userAccountActivation = user.activated %}
+                                        {% if usersSettings %}
+                                            {% for settings in usersSettings %}
+                                                {% if settings.idUser == globalIdUser %}
+                                                    {% if settings.avatar == "null" %}
+                                                        {% set avatarUrl = "tmp/images/basic_avatar.png" %}
+                                                    {% else %}
+                                                        {% set avatarUrl = "tmp/users/" %}
+                                                        {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                                    {% endif %}
+                                                    {% if settings.nickShow == 1 %}
+                                                        {% set userName = user.name ~ " " ~ user.surname %}
+                                                    {% else %}
+                                                        {% set userName = user.nick %}
+                                                    {% endif %}
+                                                    <div class="_2jJNpBqXMbbyOiGCElTYxZ mt-3">
+                                                        <a class="dsfsdjfksd66723fdf" href="{{ path('submit_post') }}" title="">
+                                                            <button class="btn zgT5MfUrDMC54cpiCpZFu">{{ 'Dodaj swój post' | trans }} <i class="far fa-paper-plane"></i></button>
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if showList %}
+                                {% for post in showList %}
+                                    <div id="post_{{ post.id }}" class="post bd-example">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                {% if usersList %}
+                                                    {% for user in usersList %}
+                                                        {% if user.id == post.idAuthor %}
+                                                            {% if usersSettings %}
+                                                                {% for settings in usersSettings %}
+                                                                    {% if settings.idUser == post.idAuthor %}
+                                                                        {% if settings.avatar == "null" %}
+                                                                            {% set avatarUrl = "tmp/images/basic_avatar.png" %}
+                                                                        {% else %}
+                                                                            {% set avatarUrl = "tmp/users/" %}
+                                                                            {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                                                        {% endif %}
+                                                                        {% if settings.nickShow == 1 %}
+                                                                            {% set userName = user.name ~ " " ~ user.surname %}
+                                                                        {% else %}
+                                                                            {% set userName = user.nick %}
+                                                                        {% endif %}
+                                                                        <div class="_2jJNpBqXMbbyOiGCElTYxZ">
+                                                                            <a class="_2E_zUw3OUkCKUFrIQwE894" href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">
+                                                                                <div class="efdkOLo3oigH_95whTYCp">
+                                                                                    <div class="_1cyAeeYDGrx7MPL_jRwKZ _1cvAFWcyUe8hsdIpCmJP0W">
+                                                                                        <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                                                                        <div class="_1XJXnCAngvZLEeLpB3oa4L3">
+                                                                                            <img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="{{avatarUrl}}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+                                                                            <strong class="ms-1"><a href="{{ path('user_stream', {'user_nick':user.nick|lower}) }}">{{ userName }}</a>
+                                                                                {% if user.verification == 1 %}
+                                                                                    <span class="icon verification" title="Konto zweryfikowane"></span>
+                                                                                {% endif %}
+                                                                            </strong>
+                                                                        </div>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            {% if post.idAuthor != globalIdUser %}
+                                                <div class="col-12">
+                                                    <div class="dropdown position-absolute top-0 end-0 rounded-top">
+                                                        <a class="btn btn-post-more dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                                            <li><button class="dropdown-item" onclick="report({{ post.idAuthor }}, {{ post.id }})"><i class="fas fa-ban"></i>&nbsp; Zgłoś użytkownika</button></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                {#<div class="col-6">
+                                                    <div class="dropdown position-absolute top-0 end-0 rounded-top">
+                                                        <a class="btn btn-post-more dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                                            <li><button class="dropdown-item" onclick="deletePostAuthor({{ post.id }})"><i class="fas fa-skull"></i>&nbsp; Usuń swój post</button></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>#}
+                                            {% endif %}
+                                        </div>
+                                        <div class="main mt-3">
+                                            <h2><a href="{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" title="{{ post.title|lower }}">{{ post.title }}</a></h2>
+                                            
+                                            <p>{{ post.text }}</p>
+                                            
+                                            {% if post.urlVideo != "none" %}
+                                                <video class="ratio ratio-16x9" controls>
+                                                    <source src="/tmp/users/{{ post.urlVideo }}" type="video/mp4">
+                                                    Your browser does not support HTML video.
+                                                </video>
+                                            {% endif %}
+
+                                            {% if post.urlPhotos != "none" %}
+                                                <div class="row photo-gallery">
+                                                    <div class="col-12">
+                                                        <a class="example-image-link" href="/tmp/users/{{ post.urlPhotos }}" data-lightbox="example-set{{post.id}}" data-title="">
+                                                            <img class="example-image" src="/tmp/users/{{ post.urlPhotos }}" alt=""/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if post.url != "none" %}
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a class="example-image-link" href="{{post.url}}" target="_blank" rel="nofollow">{{post.url}}</a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="main mt-3">
+                                            <div class="hashtags">
+                                                {% if tagsList %}
+                                                    {% for tag in tagsList %}
+                                                        {% if tag.idPost == post.id %}
+                                                            {# Link do wpisów o takim samym hashtagu #}
+                                                            <a href="{{ path('get_hashtag', {'hashtag_url':tag.tagUrl|lower}) }}" title="hashtag {{ tag.tagName }}"><i class="fab fa-slack-hash"></i> {{ tag.tagName }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="group mt-2">
+                                                {% if groupsList %}
+                                                    {% for group in groupsList %}
+                                                        {% if group.idPost == post.id %}
+                                                            {# Link do wpisów o takim samej grupie #}
+                                                            <a href="{{ path('get_group', {'group_url':group.groupUrl|lower}) }}" title="group {{ group.groupName }}"><i class="fas fa-users"></i> {{ group.groupName }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="date mt-3 pb-2">
+                                            {{ post.dateAdded }} · {{ post.timeAdded }}
+                                        </div>
+                                        <div class="buttons mt-3">
+                                            <ul class="nav nav-pills nav-fill">
+                                                <li class="nav-item pe-2">
+                                                    <a href="{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}">
+                                                        <button type="button" class="btn btn-comment">
+                                                            <i class="far fa-comments"></i>
+                                                            {% set countComments = 0 %}
+                                                            {% if commentsList %}
+                                                                {% for comments in commentsList %}
+                                                                    {% if comments.idPost == post.id %}
+                                                                       {% set countComments = countComments + 1 %}          
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                            {{countComments}}
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item pe-2">
+                                                    {% set voted = '' %}
+                                                    {% if ratingList %}
+                                                        {% for rating in ratingList %}
+                                                            {% if rating.idPost == post.id %}
+                                                                {% if rating.idUser == app.user.id %}
+                                                                    {% if rating.rating == 0 %}
+                                                                        {% set voted = 'voted' %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <button type="button" id="btn_unlike_{{ post.id }}" class="btn btn-unlike {{voted}}" onclick="rating({{ post.id }}, 'unlike')" 
+                                                    {% if userAccountActivation == 0 %}disabled{% endif %}>
+                                                        <i class="far fa-thumbs-down"></i>
+                                                        <span id="unlike_{{ post.id }}">{{ post.numberDislikes }}</span>
+                                                    </button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    {% set voted = '' %}
+                                                    {% if ratingList %}
+                                                        {% for rating in ratingList %}
+                                                            {% if rating.idPost == post.id %}
+                                                                {% if rating.idUser == app.user.id %}
+                                                                    {% if rating.rating == 1 %}
+                                                                        {% set voted = 'voted' %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <button type="button" id="btn_like_{{ post.id }}" class="btn btn-like {{voted}}" onclick="rating({{ post.id }}, 'like')" 
+                                                    {% if userAccountActivation == 0 %}disabled{% endif %}>
+                                                        <i class="far fa-thumbs-up"></i>
+                                                        <span id="like_{{ post.id }}">{{ post.numberLikes }}</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="buttons mt-3">
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-share dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fas fa-share-alt"></i> {{ 'Udostępnij' | trans }}
+                                                </button>
+                                                <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenu2">
+                                                    <li>
+                                                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://azilla.pl{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" target="_blank" rel="nofollow">
+                                                            <button class="dropdown-item" type="button">
+                                                                <i class="fab fa-facebook-f"></i> FACEBOOK
+                                                            </button>
+                                                        </a>
+                                                    </li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li>
+                                                        <a href="https://twitter.com/intent/tweet?text=title&amp;url=https://azilla.pl{{ path('single_post', {'post_id':post.id, 'post_title':post.postUrl}) }}" target="_blank" rel="nofollow">
+                                                            <button class="dropdown-item" type="button">
+                                                                <i class="fab fa-twitter"></i> TWITTER
+                                                            </button>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-normal" role="alert">
+                                        <span class="alert-text">{{ 'Jeszcze nikt nic nie dodał.. Zrób to pierwszy i zapisz się na kartach historii!' | trans }}</span>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            <div class="justify-content-center">
+                                {{ knp_pagination_render(showList) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-4 mb-4 order-sm-frist order-lg-last">
+                        {% block ad_1 %}{{ parent() }}{% endblock %}
+                        {% if groupUserWatching %} 
+                            <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX mt-widget" data-redditstyle="true">
+                                <div class="TmgZY6tDcdErbE5d7E0HJ">
+                                    <div class="hpxKmfWP2ZiwdKaWpefMn"></div>
+                                    <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                        <div class="_2TC7AdkcuxFIFKRO_VWis8 mt-3 pt-3 pb-3">
+                                            <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Grupy, które śledzisz' | trans }}</span>
+                                            <div class="mt-2">
+                                                {% for group in groupUserWatching %}
+                                                    {% for singlegroup in groupsAll %}
+                                                        {% if group.idGroup == singlegroup.id %}
+                                                            <a class="badge rounded-pill badge-tag" href="{{ path('get_group', {'group_url':singlegroup.url}) }}">{{ singlegroup.name }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalRating" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3>HEY!</h3>
+                            {% if usersList %}
+                                {% for user in usersList %}
+                                    {% if user.id == globalIdUser %}
+                                        {% if user.sex == 0 %}
+                                            <h5>Już głosowałeś!</h5>
+                                        {% else %}
+                                            <h5>Już głosowałaś!</h5>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalReport" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5>Przyjeliśmy zgłoszenie!</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalAccountActivation" role="dialog">
+        <div id="modal-dialog" class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+                            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="https://azilla.pl/assets/img/info1.png" class="d-block w-100" alt="info1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://azilla.pl/assets/img/info2.png" class="d-block w-100" alt="info2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://azilla.pl/assets/img/info3.png" class="d-block w-100" alt="info3">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalSearchError" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3>Nic nie znaleziono.</h3><h5>Spróbuj wyszukać w inny sposób.</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    
+    {{ parent() }}
+
+    {% if close_account_activation == 1 %}
+    <script type="text/javascript">$(document).ready(function(){$('#modalAccountActivation').modal('show');});</script>
+    {% endif %}
+
+    <!-- rating -->
+    <script>
+        function rating(post_id, type){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200){
+                    if(xhttp.responseText != "none"){
+                        document.getElementById(type+'_'+post_id).innerHTML = xhttp.responseText;
+                        if (type == 'like')
+                            document.getElementById('btn_'+type+'_'+post_id).style.background='#67b8ff';
+                        else if (type == 'unlike')
+                            document.getElementById('btn_'+type+'_'+post_id).style.background='#ff5148';
+                    }else{
+                        $('#modalRating').modal('show');
+                        setTimeout(function() {$('#modalRating').modal('hide');}, 2000);
+                    }
+                }
+            }
+            // generate url path - in future chceck to use with FOSJsRoutingBundle
+            {% set h1 = '00' %}
+            {% set h2 = 'like' %}
+            var url = "{{ path('rating_system', {'post_id':h1, 'type':h2}) }}"; 
+            url = url.replace("00", post_id);
+            url = url.replace("like", type);
+            // ajax send
+            xhttp.open("GET", url);
+            xhttp.send();
+        }
+    </script>
+
+    {% if info_error_search is defined %}
+        <!-- search modal -->
+        <script>
+            $(document).ready(function(){
+                $('#modalSearchError').modal('show');
+                setTimeout(function() {$('#modalSearchError').modal('hide');}, 4000);
+            });
+        </script>
+    {% endif %}
+
+{% endblock %}

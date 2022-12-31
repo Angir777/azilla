@@ -1,0 +1,42 @@
+{% extends 'public/theme.html.twig' %}
+{% block title %}{{ ' · O portalu' | trans }}{% endblock %}
+{% block body %}
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+        
+        {% block images %}{{ parent() }}{% endblock %}
+
+        <div class="col-sm-12 col-md-12 col-lg-4 d-md-block c-two">
+         	<div class="c-two-text text-black">
+            	<h1>{{ 'O portalu' | trans }}</h1>
+          	</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 c-three">
+          <div class="content-word">
+      		  <div class="jumbotron">
+              <a class="btn btn-sm btn-dark mb-3" href="{{ path('security_login') }}" title="{{ 'Powrót' | trans }}">{{ 'Powrót na stronę logowania' | trans }}</a>
+
+              <div class="tab-content">
+  		  	      <p class="lead">{{ 'Portal azilla.pl to miejsce w polskiej sieci gdzie bez przeszkód możesz wyrażać siebie, kontaktować się z innymi osobami oraz udostępniać ważne dla Ciebie informacje.' | trans }}</p>
+
+                <p>{{ 'W serwisie internetowym azilla.pl użytkowników obowiązuje 10 fundamentalnych zasad' | trans }}:</p>
+                <ol>
+                  <li>Użytkownik zakładając konto musi potwierdzić, że jest pełnoletni i ma ukończone 18 lat. Jest to niezbędny wymóg do założenia konta.</li>
+                  <li>Użytkownicy portalu mają pełną swobodę w publikowaniu swoich treści w serwisie. Podczas publikacji treści użytkownik ma obowiązek oznaczyć stosownym tagiem (SPAN lub NSFW), jeśli publikowany wpis zawiera spoiler lub jest niebezpieczny do przeglądania w miejscu publicznym (zawierają treść erotyczną, hard itp.). Brak oznaczenia skutkować będzie banem. Użytkownicy ponoszą pełną odpowiedzialność za to co publikują.</li>
+                  <li>Publikowanie treści erotycznych z udziałem nieletnich grozi natychmiastowym i permanentnym zablokowaniem konta oraz zgłoszeniem sprawy do odpowiednich organów państwowych.</li>
+                  <li>Każdy użytkownik ma prawo oceniać i komentować treści innych uzytkowników - oceniać można zarówno na "+" jak i na "-".</li>
+                  <li>Użytkownik ma prawo zablokować innego użytkownika serwisu, jeśli nie chce oglądać publikowanych przez niego treści bądź wiadomości.</li>
+                  <li>Jeśli jakiś wpis ma skrajną ilość minusów, Usługodawca zastrzega sobie prawo do usunięcia takiej treści na prośbę zdecydowanej większości użytkowników.</li>
+                  <li>Usługodawca portalu nie ponosi odpowiedzialności za podanie nieprawdziwych danych przez użytkownika podczas zakładania konta w serwisie azilla.pl oraz nie odpowiada za materiały publikowane przez użytkowników.</li>
+                  <li>Serwis azilla.pl ma służyć do wymiany informacji i opinii, a nie na wzajemnym szczuciu się, wyzwiskach i wulgaryzmach. Użytkownicy nie stosujący się do idei portalu dostaną permanentnego bana.</li>
+                  <li>Użytkownik zakładając konto musi potwierdzić że akceptuje regulamin serwisu.</li>
+                  <li>Usługodawca portalu, jeśli zajdzie taka potrzeba ma prawo zmodyfikować powyższe fundamentalne zasady.</li>
+                </ol>
+              </div>
+
+				    </div>
+        	</div>
+		    </div>
+      </div>
+    </div>
+{% endblock %}

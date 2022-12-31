@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Błażej Skrzypniak">
+        <meta name="robots" content="index, follow">
+        <meta name="googlebot" content="index, follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="azilla.pl · Witaj w Twoim zakamarku polskiej sieci! Bez przeszkód wyrażaj tu siebie, kontaktuj się z innymi osobami oraz udostępniaj ważne dla Ciebie informacje.">
+        <meta name="theme-color" content="#ffb329">
+        <title>azilla.pl{% block title %}{% endblock %}</title>
+        <!-- bootstrap core css -->
+        <link href="{{ asset('assets/css/login/bootstrap.min.css') }}" rel="stylesheet">
+        <!-- custom styles for this template -->
+        <link href="{{ asset('assets/css/login/styles.min.css') }}" rel="stylesheet">
+        <!-- fontawesome -->
+        <link href="{{ asset('dist/fontawesome-free-5-15-3-web/css/all.css') }}" rel="stylesheet">
+        <!-- fonts -->
+        <link href="https://fonts.gstatic.com" rel="preconnect">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+        <!-- favicons -->
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
+        <!-- styles -->
+        {% block stylesheets %}{% endblock %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HX2D1QP8JC"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-HX2D1QP8JC');
+        </script>
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://azilla.pl">
+        <meta property="og:title" content="azilla.pl · Polski portal społecznościowy">
+        <meta property="og:description" content="Witaj w Twoim zakamarku polskiej sieci! Bez przeszkód wyrażaj tu siebie, kontaktuj się z innymi osobami oraz udostępniaj ważne dla Ciebie informacje.">
+        <meta property="og:image" content="https://azilla.pl/assets/img/azilla_avatar.jpg">
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://azilla.pl">
+        <meta property="twitter:title" content="azilla.pl · Polski portal społecznościowy">
+        <meta property="twitter:description" content="Witaj w Twoim zakamarku polskiej sieci! Bez przeszkód wyrażaj tu siebie, kontaktuj się z innymi osobami oraz udostępniaj ważne dla Ciebie informacje.">
+        <meta property="twitter:image" content="https://azilla.pl/assets/img/azilla_avatar.jpg">
+    </head>
+    <body class="bg-light">
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <!-- jquery -->
+            <script src="{{ asset('dist/jquery/jquery-3.5.1.min.js') }}"></script>
+            <!-- bootstrap -->
+            <script src="{{ asset('assets/css/login/bootstrap.min.js') }}"></script>
+            <!-- cookies -->
+			<link rel="stylesheet" href="dist/cookies/cookieconsent.min.css">
+			<script async src="dist/cookies/cookieconsent.min.js"></script>
+			<script>window.addEventListener("load", function(){window.cookieconsent.initialise({"palette": {"popup": {"background": "#f7f7f7","text": "#404040"},"button": {"background": "rgb(255, 179, 41)","text": "#ffffff"}},"position": "bottom-left","content": {"message": "{{ 'Azilla wykorzystuje pliki cookies. Korzystanie z witryny oznacza zgodę na ich zapis lub odczyt według ustawień przeglądarki.' | trans }}","dismiss": "{{ 'Rozumiem!' | trans }}","link": "{{ 'Czytaj więcej' | trans }}","href": "{{ path('security_privacy') }}"}})});</script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,275 @@
+{# public stream #}
+
+{% extends 'private/theme.html.twig' %}
+
+{% block title %}{{ 'Wiadomości' | trans }}{% endblock %}
+
+{% block body %}
+
+    {% block header %}{{ parent() }}{% endblock %}
+
+    <div class="container my-md-4">
+        <div class="row">
+            
+            {% block menu %}{{ parent() }}{% endblock %}
+
+            <div class="col-12 col-sm-12 col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-8 order-sm-last order-lg-frist">
+
+                        {% if info_error_blocked is defined %}
+                            <div id="hideMessage" style="display: block;">
+                                <div class="alert alert-infos" role="alert">
+                                    <h6 class="alert-heading">{{ 'Uwaga!' | trans }}</h6>
+                                    <hr>
+                                    <span class="alert-text">{{ 'Nie możesz napisać wiadomości do blokowanego lub blokującego użytkownika.' | trans }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <form class="position-relative me-auto mt-3" action="{{ path('search', {'type_search':'conversation'}) }}" method="POST">
+                          <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+                          <div class="search-input">
+                            <input type="search" name="search" class="form-control i-w-max" id="search_conversation" placeholder="Szukaj użytkownika" aria-label="{{ 'Szukaj użytkownika' | trans }}" autocomplete="off" required>
+                            <div id="showConversations" class="menu_search"></div>
+                          </div>
+                        </form>
+                        <div class="row">
+
+                            {#
+                            {% set countMsg = 0 %}
+                            {% for conversation in conversations %}
+                                {% for message in messages %}
+                                    {% if conversation.conversation == message.conversation %}
+                                        {% if message.statusNotification == 0 %}
+                                            {% if globalIdUser == message.idUser %}
+                                            {% else %}
+                                                {% set countMsg = countMsg + 1 %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            {% if countMsg == 0 %}{% else %}{{countMsg}}{% endif %}
+                            #}
+
+                            {% for conversation in globalConversations %}
+
+                                {% set displayConversation = true %}
+
+                                {% if conversation.status == 0 %}
+                                    {% set displayConversation = false %}
+                                {% endif %}
+                                
+                                {% if displayConversation == true %}
+
+                                <div class="col-12 col-sm-6 col-lg-6">
+                                    <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX mt-widget" data-redditstyle="true">
+                                        <div class="TmgZY6tDcdErbE5d7E0HJ minH">
+                                            <div class="hpxKmfWP2ZiwdKaWpefMn ssdf4wfsdf"></div>
+                                            <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                                
+                                                <div class="_2TC7AdkcuxFIFKRO_VWis8 pt-3 pb-3">
+                                                    
+                                                        {% if conversation.idUserA == globalIdUser %}
+                                                            {% set userId = conversation.idUserB %}
+                                                        {% else %}
+                                                            {% set userId = conversation.idUserA %}
+                                                        {% endif %}
+
+                                                        {% for user in usersList %}
+                                                            {% if user.id == userId %}
+
+                                                                    {% if usersSettings %}
+                                                                        {% for settings in usersSettings %}
+                                                                            {% if settings.idUser == userId %}
+                                                                                {% if settings.avatar == "null" %}
+                                                                                    {% set avatarUrl = "tmp/images/basic_avatar.png" %}
+                                                                                {% else %}
+                                                                                    {% set avatarUrl = "tmp/users/" %}
+                                                                                    {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                                                                                {% endif %}
+                                                                                {% if settings.nickShow == 1 %}
+                                                                                    {% set userName = user.name ~ " " ~ user.surname %}
+                                                                                {% else %}
+                                                                                    {% set userName = user.nick %}
+                                                                                {% endif %}
+
+                                                                                <div class="_2KqgQ5WzoQRJqjjoznu22o mb-3" style="background: url({{avatarUrl}}) 0% 60% / 90px 90px; height: 90px; width: 90px;margin: 0 auto;"></div> 
+
+                                                                                <p class="_19bCWnxeTjqzBElWZfIlJb"><strong>{{userName}}{% if user.verification == 1 %}<span class="icon verification" title="Konto zweryfikowane"></span>{% endif %}</strong></p>
+                                                                                
+                                                                                {% set mCount = 0 %}
+                                                                                {% set countMsg = 0 %}
+                                                                                {% for message in globalMessages %}
+                                                                                    {% if mCount == 0 %}
+                                                                                        {% if message.conversation == conversation.conversation %}
+                                                                                            {% set mCount = 1 %}
+                                                                                            
+                                                                                            {% if message.idUser == globalIdUser %}
+                                                                                                <p>Ty: {{ message.msg|length > 10 ? message.msg|slice(0, 10) ~ '...' : message.msg  }}</p>
+                                                                                            {% else %}
+                                                                                                <p>{{ message.msg|length > 10 ? message.msg|slice(0, 10) ~ '...' : message.msg  }}</p>
+                                                                                            {% endif %}
+                                                                                        {% else %}
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+
+                                                                                    {% if conversation.conversation == message.conversation %}
+                                                                                        {% if message.statusNotification == 0 %}
+                                                                                            {% if globalIdUser == message.idUser %}
+                                                                                            {% else %}
+                                                                                                {# 'TU' nowa wiadomość do mnie od innego usera / 'countMsg' zawiera liczbę nowych wiadomości #}
+                                                                                                {% set countMsg = countMsg + 1 %}
+                                                                                            {% endif %}
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+
+                                                                                {% endfor %} 
+                                                                                {% if countMsg == 0 %}
+
+                                                                                    <a href="{{ path('messages_conversation', {'conversation':conversation.conversation}) }}" id="button_talk1" class="btn btn-md btn-go2 btn-block rounded-pill">Rozmawiaj</a>
+
+                                                                                {% else %}
+
+                                                                                    <a href="{{ path('messages_conversation', {'conversation':conversation.conversation}) }}" id="button_talk2" class="btn btn-md btn-go2 btn-block rounded-pill pulse">Nowe wiadomości <span class="badge bg-info msg-count">{{countMsg}}</span></a>
+
+                                                                                {% endif %}
+
+                                                                            {% endif %}
+                                                                         {% endfor %} 
+                                                                    {% endif %}  
+
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                </div>
+                                            </div>
+                                            <div data-redditstyle="true" class="_1EPynDYoibfs7nDggdH7Gq">
+                                                <div class="_1zPvgKHteTOub9dKkvrOl4"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% endif %}
+
+                            {% else %}
+
+                                <div class="col-12">
+                                    <div class="alert alert-normal mt-3" role="alert">
+                                        <span class="alert-text">{{ 'Brak wiadomości' | trans }}</span>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-4 order-sm-frist order-lg-last">
+                      <div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX mt-widget" data-redditstyle="true">
+                        <div class="TmgZY6tDcdErbE5d7E0HJ">
+                            <div class="hpxKmfWP2ZiwdKaWpefMn"></div>
+                            <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                {#<div class="_2KqgQ5WzoQRJqjjoznu22o" style="background: url(https://localhost:8000/tmp/images/basic_avatar.png) 0% 60% / 80px 90px; height: 80px; width: 90px;"></div>#}
+                                <div class="_2TC7AdkcuxFIFKRO_VWis8 pt-5 pb-3">
+                                    <span class="_19bCWnxeTjqzBElWZfIlJb">{{ 'Znajdź użytkownika, z którym chcesz porozmawiać i napisz pierwszy!' | trans }}</span>
+                                </div>
+                            </div>
+                            <div data-redditstyle="true" class="_1EPynDYoibfs7nDggdH7Gq">
+                                <div class="_1zPvgKHteTOub9dKkvrOl4"></div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalSearchError" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"></div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3>Nic nie znaleziono.</h3><h5>Spróbuj wyszukać w inny sposób.</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalSearchErrorTwo" role="dialog">
+        <div id="modal-dialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"></div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img class="_2bLCGrtCCJIMNCZgmAMZFM img-transparent" src="../tmp/images/basic_avatar.png">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h3>Wystąpił błąd.</h3><h5>Spróbuj wyszukać w inny sposób.</h5>
+                        </div>
+                    </div>          
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+      $('#search_conversation').keyup(function(){
+          var query1 = $(this).val();
+          if(query1 != ''){
+              $.ajax({
+                  url:"{{ path('search_header_conversation') }}",
+                  method:"POST",
+                  data:{query:query1},
+                  success:function(data){
+                      $('#showConversations').fadeIn();
+                      $('#showConversations').html(data);
+                  }
+              });
+          }else{
+              $('#showConversations').fadeIn();
+              $('#showConversations').html("");
+          }
+      });
+      $(document).on('click', '.item7', function(){
+          $('#search_conversation').val($(this).text());
+          $('#showConversations').fadeOut();
+      });
+    </script>
+
+    {% if info_error_search is defined %}
+        <!-- search modal -->
+        <script>
+            $(document).ready(function(){
+                $('#modalSearchError').modal('show');
+                setTimeout(function() {$('#modalSearchError').modal('hide');}, 4000);
+            });
+        </script>
+    {% endif %}
+    {% if info_error_conversation is defined %}
+        <!-- search modal -->
+        <script>
+            $(document).ready(function(){
+                $('#modalSearchErrorTwo').modal('show');
+                setTimeout(function() {$('#modalSearchErrorTwo').modal('hide');}, 4000);
+            });
+        </script>
+    {% endif %}
+
+{% endblock %}

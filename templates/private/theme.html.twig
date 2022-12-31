@@ -1,0 +1,349 @@
+{% extends 'private/base.html.twig' %}
+
+{% set route = app.request.get('_route') %}
+{% set lang = app.request.getLocale() %}
+
+{% block header %}
+    <nav class="navbar navbar-light bg-topnav">
+        <div class="container">
+            <div id="avatar-header">
+            {% if usersSettings %}
+                {% for settings in usersSettings %}
+                    {% if settings.idUser == globalIdUser %}
+                            {% if settings.avatar == "null" %}
+                                {% set avatarUrl = "https://azilla.pl/tmp/images/basic_avatar.png" %}
+                            {% else %}
+                                {% set avatarUrl = "https://azilla.pl/tmp/users/" %}
+                                {% set avatarUrl = avatarUrl ~ settings.avatar %}
+                            {% endif %}
+                            <a class="navbar-brand _2E_zUw3OUkCKUFrIQwE894 mt-2" href="{{ path('user_stream', {'user_nick':globalUserNick|lower}) }}">
+                                <div class="efdkOLo3oigH_95whTYCp">
+                                    <div class="_1cyAeeYDGrx7MPL_jRwKZ _1cvAFWcyUe8hsdIpCmJP0W">
+                                        <div class="_2_QqG5dG916znjlVV8ZCbw"></div>
+                                        <div class="_1XJXnCAngvZLEeLpB3oa4L2">
+                                            <img alt="User avatar" class="ScrrUjzznpAqm92uwgnvO" src="{{avatarUrl}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <strong class="ms-1 mx-3">
+                                <a href="{{ path('user_stream', {'user_nick':globalUserNick|lower}) }}">{{ globalUserName }}</a>
+                                {% for user in usersList %}
+                                    {% if user.id == globalIdUser %}
+                                        {% if user.verification == 1 %}
+                                            <span class="icon verification" title="Konto zweryfikowane"></span>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </strong>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </div>
+            <div id="notifications">
+                <div class="dropdown-notification">
+                    <button onclick="myFunction()" class="dropbtn btn-notifications"><span class="badge bg-danger count"></span> {{ 'Powiadomienia' | trans }} <i class="far fa-bell"></i></button>
+                    <div id="myDropdown" class="dropdown-content scrollable-menu"><a class="text-light disabled" href="#">{{ 'Brak nowych powiadomień' | trans }}</a></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="navbar navbar-expand-md">
+        <div id="search" class="container mt-3 mb-3">
+            <ul class="nav nav-pills mb-1 col-md-6" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="pills-search-group-tab" data-bs-toggle="pill" href="#search-group" role="tab" aria-controls="pills-search-group" aria-selected="true">
+                        <i class="fas fa-users"></i>
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-search-user-tab" data-bs-toggle="pill" href="#search-user" role="tab" aria-controls="pills-search-user" aria-selected="true">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-search-hashtag-tab" data-bs-toggle="pill" href="#search-hashtag" role="tab" aria-controls="pills-search-hashtag" aria-selected="false">
+                        <i class="fab fa-slack-hash"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content col-md-6" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="search-group" role="tabpanel" aria-labelledby="pills-search-group-tab">
+                    <form class="position-relative me-auto" action="{{ path('search', {'type_search':'group'}) }}" method="POST">
+                        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+                        <div class="search-input">
+                            <input type="search" name="search" class="form-control i-w-max" id="search_group" placeholder="Szukaj grupy" aria-label="{{ 'Szukaj grupy' | trans }}" autocomplete="off" required>
+                            <div id="showGroups" class="menu_search"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="search-user" role="tabpanel" aria-labelledby="pills-search-user-tab">
+                    <form class="position-relative me-auto" action="{{ path('search', {'type_search':'user'}) }}" method="POST">
+                        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+                        <div class="search-input">
+                            <input type="search" name="search" class="form-control i-w-max" id="search_user" placeholder="Szukaj użytkownika" aria-label="{{ 'Szukaj użytkownika' | trans }}" autocomplete="off" required>
+                            <div id="showUsers" class="menu_search"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="search-hashtag" role="tabpanel" aria-labelledby="pills-search-hashtag-tab">
+                    <form class="position-relative me-auto" action="{{ path('search', {'type_search':'hashtag'}) }}" method="POST">
+                        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+                        <div class="search-input">
+                            <input type="search" name="search" class="form-control i-w-max" id="search_tag" placeholder="Szukaj znaczników #" aria-label="{{ 'Szukaj znaczników #' | trans }}" autocomplete="off" required>
+                            <div id="showTags" class="menu_search"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <header class="bd-subnavbar navbar navbar-expand-md navbar-dark bd-navbar">
+        <nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
+            <a class="navbar-brand p-0 me-2 logo" href="/" aria-label="Bootstrap">
+                <img src="https://azilla.pl/assets/img/logo/azilla_logo_0.png" alt="logo" class="responsive">
+            </a>
+            <button class="btn bd-sidebar-toggle d-md-none py-0 px-1 ms-3 order-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-expand" viewBox="0 0 16 16">
+                <title>Show menu</title>
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-collapse" viewBox="0 0 16 16">
+                <title>Close menu</title>
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
+            </svg>
+        </button>
+        </nav>
+    </header>
+    <section id="backToTop"></section>
+{% endblock %}
+
+{% block menu %}
+    <div class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3">
+        <nav class="collapse bd-links" id="bd-docs-nav" aria-label="Docs navigation">
+            <ul class="list-unstyled mb-0 py-3 pt-md-1">
+                <li>
+                    <a href="{{ path('public_stream') }}" class="d-inline-flex align-items-center rounded {{ route starts with 'public_stream' ? 'active' }}">
+                        <i class="fab fa-cloudsmith"></i> &nbsp; {{ 'Publiczne' | trans }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('watched_stream') }}" class="d-inline-flex align-items-center rounded {{ route starts with 'watched_stream' ? 'active' }}">
+                        <i class="fas fa-star"></i> &nbsp; Obserwowane
+                    </a>
+                </li>
+                <li class="my-3 mx-4 border-top"></li>
+                <li>
+                    {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+                    {% set activeUser = "/u/" %}
+                    {% set activeUser = activeUser ~ globalUserNick|lower %}
+                    {% if currentUrl == activeUser %}  {% endif %}
+                    <a href="{{ path('user_stream', {'user_nick':globalUserNick|lower}) }}" class="d-inline-flex align-items-center rounded {% if currentUrl == activeUser %}active{% endif %}">
+                        <i class="fas fa-user-astronaut"></i> &nbsp; {{ 'Profil' | trans }}
+                   </a>
+                </li>
+                <li>
+                    <a href="{{ path('messages') }}" class="d-inline-flex align-items-center rounded {{ route starts with 'messages' ? 'active' }}">
+                        <i class="far fa-comments"></i> &nbsp; Wiadomości
+                    	{% set countMsg = 0 %}
+                        {% for conversation in globalConversations %}
+                            {% for message in globalMessages %}
+                                {% if conversation.conversation == message.conversation %}
+                                    {% if message.statusNotification == 0 %}
+                                        {% if globalIdUser == message.idUser %}
+                                        {% else %}
+                                            {% set countMsg = countMsg + 1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        {% if countMsg == 0 %}&nbsp; <span id="msg-count" class="msg-count"></span>{% else %}&nbsp; <span id="msg-count" class="badge bg-danger msg-count">{{countMsg}}</span>{% endif %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('settings') }}" class="d-inline-flex align-items-center rounded {{ route starts with 'settings' ? 'active' }}">
+                        <i class="fas fa-cogs"></i> &nbsp; {{ 'Ustawienia' | trans }}
+                    </a>
+                </li>
+                <li class="my-3 mx-4 border-top"></li>
+                <li>
+                    <a href="{{ path('security_logout') }}" class="d-inline-flex align-items-center rounded">
+                        <i class="fas fa-sign-out-alt"></i> &nbsp; {{ 'Wyloguj' | trans }}
+                    </a>
+                </li>
+                <li class="my-3 mx-4 border-top"></li>
+                <li>
+                    <ul class="footer ps-0">
+                      <li class="d-inline-block"><a href="#" title="" class="disabled">azilla.pl &copy; {{ "now"|date("Y") }}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block ad_1 %}
+    {#<div class="ad1 text-white mt-4">REKLAMA 1</div>#}
+{% endblock %}
+
+{% block ad_2 %}
+    {#<div class="ad2 text-white mt-4">REKLAMA 2</div>#}
+{% endblock %}
+
+{% block ad_3 %}
+    {#<div class="ad3 text-white mt-4">REKLAMA 3</div>#}
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('dist/jquery/jquery.min.js') }}"></script>
+    <script>
+        function myFunction(){document.getElementById("myDropdown").classList.toggle("show");}
+        window.onclick = function(event){
+            if (!event.target.matches('.dropbtn')){
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++){
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')){openDropdown.classList.remove('show');}
+                }
+            }
+        };
+    </script>
+    <script>
+        $(document).ready(function(){
+            function load_unseen_notification(view = ''){
+                var generate_url = "{{ path('notification_system') }}"; 
+                $.ajax({
+                    url:generate_url,
+                    method:"POST",
+                    data:{view:view},
+                    dataType:"json",
+                    success:function(data)
+                    {
+                        $('.dropdown-content').html(data.notification);
+                        if(data.unseen_notification > 0){
+                            $('.count').html(data.unseen_notification);
+                        }else{
+                            $('.count').html('');
+                        }
+                    }
+                });
+            }
+            load_unseen_notification();
+            $(document).on('click', '.dropbtn', function(){
+                load_unseen_notification();
+            });
+            $(document).on('click', '.notification', function(event){
+                var myVal = event.target.id;
+                load_unseen_notification(myVal);
+            });
+            setInterval(function(){ 
+                load_unseen_notification(); 
+            }, 10000);
+
+
+            function load_msg_notification(view = ''){
+                var generate_url = "{{ path('notification_msg_system') }}"; 
+                $.ajax({
+                    url:generate_url,
+                    method:"POST",
+                    data:{view:view},
+                    dataType:"json",
+                    success:function(data)
+                    {
+                        if(data.unseen_notification > 0){
+
+                            var e = document.getElementById("msg-count");
+                            $( e ).addClass( "badge bg-danger" );
+                            $('.msg-count').html(data.unseen_notification);
+
+                        	var d = document.getElementById("button_talk1");
+							$( d ).addClass( "pulse" );
+							document.getElementById("button_talk1").innerHTML = 'Nowe wiadomości <span class="badge bg-info msg-count">'+data.unseen_notification+'</span>';
+
+                        }else{
+                            $('.msg-count').html('');
+                        }
+                    }
+                });
+            }
+            setInterval(function(){ 
+                load_msg_notification(); 
+            }, 10000);
+
+
+            $('#search_group').keyup(function(){
+                var query1 = $(this).val();
+                if(query1 != ''){
+                    $.ajax({
+                        url:"{{ path('search_header_group') }}",
+                        method:"POST",
+                        data:{query:query1},
+                        success:function(data){
+                            $('#showGroups').fadeIn();
+                            $('#showGroups').html(data);
+                        }
+                    });
+                }else{
+                    $('#showGroups').fadeIn();
+                    $('#showGroups').html("");
+                }
+            });
+            $(document).on('click', '.item4', function(){
+                $('#search_group').val($(this).text());
+                $('#showGroups').fadeOut();
+            });
+
+            $('#search_user').keyup(function(){
+                var query1 = $(this).val();
+                if(query1 != ''){
+                    $.ajax({
+                        url:"{{ path('search_header_user') }}",
+                        method:"POST",
+                        data:{query:query1},
+                        success:function(data){
+                            $('#showUsers').fadeIn();
+                            $('#showUsers').html(data);
+                        }
+                    });
+                }else{
+                    $('#showUsers').fadeIn();
+                    $('#showUsers').html("");
+                }
+            });
+            $(document).on('click', '.item5', function(){
+                $('#search_user').val($(this).text());
+                $('#showUsers').fadeOut();
+            });
+
+            $('#search_tag').keyup(function(){
+                var query1 = $(this).val();
+                if(query1 != ''){
+                    $.ajax({
+                        url:"{{ path('search_header_tag') }}",
+                        method:"POST",
+                        data:{query:query1},
+                        success:function(data){
+                            $('#showTags').fadeIn();
+                            $('#showTags').html(data);
+                        }
+                    });
+                }else{
+                    $('#showTags').fadeIn();
+                    $('#showTags').html("");
+                }
+            });
+            $(document).on('click', '.item6', function(){
+                $('#search_tag').val($(this).text());
+                $('#showTags').fadeOut();
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'private/theme.html.twig' %}
+{% block title %}{{ 'Tworzenie grupy' | trans }}{% endblock %}
+{% block body %}
+	{% block header %}{{ parent() }}{% endblock %}
+    <div class="container my-md-4">
+        <div class="row">
+            {% block menu %}{{ parent() }}{% endblock %}
+            <div class="col-12 col-sm-12 col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-8">
+                        <div class="bd-content">
+                            <div class="bd-example mt-2 mb-4">
+                                <form class="position-relative me-auto" action="{{ path('create_group') }}" enctype="multipart/form-data" method="POST">
+				                    
+				                    <h6 class="text-white mb-3">Tworzenie grupy</h6>
+
+				                    <div class="form-check form-switch mb-3">
+				                      	<label for="nickShow" class="form-label">Pokazuj moją nazwę użytkownika jako założyciela grupy</label>
+				                      	<input class="form-check-input" type="checkbox" name="nick_show" id="nickShow" checked>
+				        			</div>
+
+									<div class="form-group">
+			                            <label for="inputName" class="form-label">{{ 'Nazwa grupy (może składać się z liter i znaku "_", o długości miedzy 5-20 znaków)' | trans }}*</label>
+			                            <input type="text" name="name_group" id="inputName" class="form-control 
+			                            {% if error_namegroup_1 is defined %}invalid{% endif %}
+			                            {% if error_namegroup_2 is defined %}invalid{% endif %}
+			                            {% if error_namegroup_3 is defined %}invalid{% endif %}" placeholder="" pattern="^[A-Za-z_]{5,20}$" value="{% if r_nick is defined %}{{r_nick}}{% endif %}" required />
+			                            {% if error_namegroup_1 is defined %}
+			                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+			                            {% endif %}
+			                            {% if error_namegroup_2 is defined %}
+			                                <div class="invalid-feedback" style="display:block">{{ 'Jest już grupa o nazwie ' | trans }} "{{ error_namegroup_2 }}"</div>
+			                            {% endif %}
+			                            {% if error_namegroup_3 is defined %}
+			                                <div class="invalid-feedback" style="display:block">{{ 'Grupa powinna mieć długość miedzy 5-20 znaków. Może składać się z liter i znaku "_".' | trans }}</div>
+			                            {% endif %}
+			                        </div>
+
+									<div class="mb-3">
+									  	<label for="message_body_0" class="form-label">Opis grupy</label>
+                                        <textarea class="form-control rounded-3 
+                                        {% if info_error_long_text is defined %}invalid{% endif %}" name="description_group" id="message_body_0" style="height: 100px" onkeyup="checkWordLenTwo(this, 0);"></textarea>
+										<span class="words-info words-left-0 text-white">100 słów pozostało</small></span>
+										{% if info_error_long_text is defined %}
+											<div class="invalid-feedback" style="display:block">{{ 'Zbyt długi tekst. Maksymalna ilość słów to 100.' | trans }}</div>
+						                {% endif %}
+									</div>
+									
+                                    <div class="mb-3">
+                                    	{% set userBackground = "null" %}
+										{% if userBackground == "null" %}
+                                        	<label for="background" class="form-label">Dodaj tło grupy</label>
+                                        	<a tabindex="0"role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="{{ 'Maksymalny rozmiar pliku to 5MB. Dozwolone formaty to jpg, jpeg i png.' | trans }}">
+                                                <i class="fas fa-info-circle"></i>
+                                            </a>
+                                        	<input class="form-control form-control-sm formFile" name="background" id="background" type="file" accept="image/jpeg, image/png">
+                                        {% else %}
+                                        	<label class="form-label">Aktualne zdjęcie grupy</label>
+                                        	<div class="mb-3">
+                                        		<input type="checkbox" class="btn-check" id="deleteBackground" name="deleteBackground" autocomplete="off">
+												<label class="btn btn-primary btn-sm" for="deleteBackground" onclick="submitButtonStyle2(this)">Usuń tło</label>
+                                        	</div>
+                                        	<div class="card"><div class="card-top" style="background-image: url(tmp/groups/{{groupBackground}});"></div></div>	
+                                        {% endif %}
+                                        {% if info_error_file_size is defined %}
+                                        	<div class="invalid-feedback" style="display:block">{{ 'Za duża waga pliku.' | trans }}</div>
+						                {% endif %}
+						                {% if info_error_file_bad_format is defined %}
+						                    <div class="invalid-feedback" style="display:block">{{ 'Zły format pliku. Prawidłowy to JPG, JPEG lub PNG.' | trans }}</div>
+						                {% endif %}
+						                {% if info_error_file is defined %}
+						                	<div class="invalid-feedback" style="display:block">{{ 'Wystapił błąd podczas przesyłania pliku. Sprubój ponownie za chwilę.' | trans }}</div>
+						                {% endif %}
+                                    </div>
+
+				                    <button type="submit" class="btn btn-primary btn-sm">Utwórz grupę</button>
+				                </form>
+                            </div>
+                        </div>
+                    </div>
+                	<div class="col-12 col-sm-12 col-lg-4 mb-4">
+                		<div class="_1G4yU68P50vRZ4USXfaceV _2QeqBqfT5UbHBoViZUt-wX" data-redditstyle="true">
+                            <div class="TmgZY6tDcdErbE5d7E0HJ">
+                                <div class="hpxKmfWP2ZiwdKaWpefMn"></div>
+                                <div class="_20Kb6TX_CdnePoT8iEsls6 t9oUK2WY0d28lhLAh3N5q">
+                                    <div class="_2KqgQ5WzoQRJqjjoznu22o" style="background: url(https://localhost:8000/assets/img/banner2.jpg) 0% 0% / 40px 68px; height: 68px; width: 40px;"></div>
+                                    <div class="_2TC7AdkcuxFIFKRO_VWis8 mt-3 pt-3">
+                                        <h5 class="_19bCWnxeTjqzBElWZfIlJb">Tworzenie grupy</h5>
+                                        <div class="mt-2 mb-2">W tym miejscu możesz utworzyć własną grupę na azilli. Podaj nazwę dla swojej grupy oraz opcjonalnie opis i zdjęcie w tle. Po utworzeniu grupy jeśli chcesz, będzie widniała informacja, że jesteś autorem tej grupy. Jako autor możesz ją w każdej chwili edytować lub usunąć. Maż też prawo usuwać z grupy posty innych użytkowników, jeśli nie spełniają one założeń grupy. Miłej zabawy!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% block ad_1 %}{{ parent() }}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}{{ parent() }}{% endblock %}

@@ -1,0 +1,190 @@
+{% extends 'public/theme.html.twig' %}
+{% block title %}{{ ' · Darmowa rejestracja' | trans }}{% endblock %}
+{% block body %}
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+        {% block images %}{{ parent() }}{% endblock %}
+        <div class="col-sm-12 col-md-12 col-lg-4 d-md-block c-two">
+            <div class="c-two-text text-black">
+                <h1>{{ 'Jeszcze chwila!' | trans }}</h1>
+                <h2>{{ 'Już tylko jeden krok dzieli Cię od publikowania swoich treści!' | trans }}</h2>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 c-three">
+            <form class="form-signin" action="{{ path("security_register") }}" method="post">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputNick">{{ 'Nick (może składać się z liter, cyfr i znaku "_", o długości miedzy 5-20 znaków i nie można go potem zmienić)' | trans }}*</label>
+                            <input type="text" name="user_nick" id="inputNick" class="form-control 
+                            {% if error_nick_1 is defined %}invalid{% endif %}
+                            {% if error_nick_3 is defined %}invalid{% endif %}
+                            {% if error_nick_2 is defined %}invalid{% endif %}" placeholder="{{ 'Twój unikalny nick' | trans }}*" pattern="^[A-Za-z\d_]{5,20}$" value="{% if r_nick is defined %}{{r_nick}}{% endif %}" required />
+                            {% if error_nick_1 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+                            {% endif %}
+                            {% if error_nick_2 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Jest już użytkownik o nazwie.' | trans }} "{{ error_nick_2 }}"</div>
+                            {% endif %}
+                            {% if error_nick_3 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Nick powinien mieć długość miedzy 5-20 znaków. Może składać się z liter, cyfr i znaku "_".' | trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputName">{{ 'Imię (może składać się z dużych i małych liter, o długości miedzy 1-20 znaków)' | trans }}*</label>
+                            <input type="text" name="user_name" id="inputName" class="form-control 
+                            {% if error_name_1 is defined %}invalid{% endif %}
+                            {% if error_name_2 is defined %}invalid{% endif %}
+                            " placeholder="{{ 'Imię' | trans }}*" pattern="^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]{1,20}$" value="{% if r_name is defined %}{{r_name}}{% endif %}" required />
+                            {% if error_name_1 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+                            {% endif %}
+                            {% if error_name_2 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Imię może się składać z dużych i małych liter od 1 do 15 znaków.' | trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputSurname">{{ 'Nazwisko (może składać się z dużych i małych liter, o długości miedzy 1-20 znaków)' | trans }}*</label>
+                            <input type="text" name="user_surname" id="inputSurname" class="form-control 
+                            {% if error_surname_1 is defined %}invalid{% endif %}
+                            {% if error_surname_2 is defined %}invalid{% endif %}
+                            " placeholder="{{ 'Nazwisko' | trans }}*" pattern="^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]{1,20}$" value="{% if r_surname is defined %}{{r_surname}}{% endif %}" required />
+                            {% if error_surname_1 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+                            {% endif %}
+                            {% if error_surname_2 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Nazwisko może się składać z dużych i małych liter od 1 do 15 znaków.' | trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputSex">{{ 'Płeć' | trans }}*</label>
+                            <select name="user_sex" id="inputSex" class="form-control 
+                            {% if error_sex_1 is defined %}invalid{% endif %}" required>
+                              <option selected disabled value="">{{ 'Płeć' | trans }}*</option>
+                              <option value="man" {% if r_sex is defined %}{% if r_sex == 'man' %}selected="selected"{% endif %}{% endif %}>{{ 'Mężczyzna' | trans }}</option>
+                              <option value="woman" {% if r_sex is defined %}{% if r_sex == 'woman' %}selected="selected"{% endif %}{% endif %}>{{ 'Kobieta' | trans }}</option>
+                            </select>
+                            {% if error_sex_1 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputEmail">{{ 'Adres e-mail (nie można go potem zmienić)' | trans }}*</label>
+                            <input type="email" name="user_email" id="inputEmail" class="form-control 
+                            {% if error_email_1 is defined %}invalid{% endif %}
+                            {% if error_email_2 is defined %}invalid{% endif %}
+                            {% if error_email_3 is defined %}invalid{% endif %}" placeholder="{{ 'Adres e-mail' | trans }}*" 
+                            value="{% if r_email is defined %}{{r_email}}{% endif %}" required />
+                            {% if error_email_1 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+                            {% endif %}
+                            {% if error_email_2 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Podaj poprawny adres e-mail.' | trans }}</div>
+                            {% endif %}
+                            {% if error_email_3 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Użytkownik z takim adresem email jest już zarejestrowany.' | trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {#<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputPhone">{{ 'Numer telefonu (w formacie 123-456-789)' | trans }}*</label>
+                            <input type="tel" name="user_phone" id="inputPhone" class="form-control 
+                            {% if error_phone_1 is defined %}invalid{% endif %}
+                            {% if error_phone_2 is defined %}invalid{% endif %}" pattern="\d{3}[\-]\d{3}[\-]\d{3}" placeholder="{{ 'Numer telefonu' | trans }}*" 
+                            value="{% if r_phone is defined %}{{r_phone}}{% endif %}" required />
+                            {% if error_phone_1 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+                            {% endif %}
+                            {% if error_phone_2 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Podaj poprawny numer telefonu, np. 123-456-789.' | trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>#}
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputPassword">{{ 'Hasło (minimum 8 znaków)' | trans }}*</label>
+                            <input type="password" name="user_password" id="inputPassword" class="form-control 
+                            {% if error_password_1 is defined %}invalid{% endif %}
+                            {% if error_password_3 is defined %}invalid{% endif %}
+                            {% if error_password_4 is defined %}invalid{% endif %}" pattern=".{8,}" placeholder="Hasło (minimum 8 znaków)*" required />
+                            {% if error_password_1 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+                            {% endif %}
+                            {% if error_password_3 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Podane hasła są różne.' | trans }}</div>
+                            {% endif %}
+                            {% if error_password_4 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Podane hasło jest za krótkie.' | trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputPassword">{{ 'Powtórz hasło' | trans }}*</label>
+                            <input type="password" name="user_password_reply" id="inputPasswordReply" class="form-control 
+                            {% if error_password_2 is defined %}invalid{% endif %}
+                            {% if error_password_3 is defined %}invalid{% endif %}
+                            {% if error_password_4 is defined %}invalid{% endif %}" pattern=".{8,}" placeholder="Powtórz hasło*" required />
+                            {% if error_password_2 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Uzupełnij pole.' | trans }}</div>
+                            {% endif %}
+                            {% if error_password_3 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Podane hasła są różne.' | trans }}</div>
+                            {% endif %}
+                            {% if error_password_4 is defined %}
+                                <div class="invalid-feedback" style="display:block">{{ 'Podane hasło jest za krótkie.' | trans }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="checkbox {% if error_age_1 is defined %}invalid{% endif %}">
+                                <input type="checkbox" id="age" name="age" required>
+                                <label for="age">{{ 'Mam ukończone 18 lat' | trans }}.*</label>
+                                {% if error_age_1 is defined %}
+                                    <div class="invalid-feedback" style="display:block">{{ 'Musisz potwierdzić, że masz ukończone 18 lat.' | trans }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <div class="checkbox {% if error_password_2 is defined %}invalid{% endif %}">
+                                <input type="checkbox" id="regulations" name="regulations" required>
+                                <label for="regulations">{{ 'Akceptuję' | trans }} &nbsp; <a href="{{ path('security_regulations') }}" title="{{ 'Regulamin' | trans }}">{{ 'regulamin serwisu' | trans }}</a>.*</label>
+                                {% if error_regulations_1 is defined %}
+                                    <div class="invalid-feedback" style="display:block">{{ 'Musisz potwierdzić, że znasz regulamin.' | trans }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        <p><small>* - {{ 'Pola wymagane' | trans }}</small></p>
+                        <p><small><strong>{{ 'Uwaga!' | trans }}</strong> {{ 'Na podany adres e-mail zostanie wysłany link aktywacyjny.' | trans }}<br>{{ 'Aby w pełni korzystać z serwisu należy go kliknąć.' | trans }}</small></p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
+                        <button class="btn btn-lg btn-dark btn-block" type="submit">{{ 'Zarejestruj' | trans }}</button>
+                    </div>                                    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-4 mb-2 text-center">
+                        <p class="mb-3"><small>{{ 'Mam już konto.' | trans }} <a href="{{ path('security_login') }}" title="{{ 'Zaloguj się' | trans }}">{{ 'Zaloguj się' | trans }}</a>.</small></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">setTimeout(function() {$('#hideMessage').fadeOut('fast');}, 5000);</script>
+{% endblock %}

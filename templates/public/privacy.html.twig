@@ -1,0 +1,132 @@
+{% extends 'public/theme.html.twig' %}
+{% block title %}{{ ' · Prywatność' | trans }}{% endblock %}
+{% block body %}
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+        
+        {% block images %}{{ parent() }}{% endblock %}
+
+        <div class="col-sm-12 col-md-12 col-lg-4 d-md-block c-two">
+         	<div class="c-two-text text-black">
+            	<h1>{{ 'Polityka prywatności' | trans }}<br/>{{ 'i pliki cookies' | trans }}</h1>
+          	</div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 c-three">
+        	<div class="content-word">
+        		<div class="jumbotron">
+        			<a class="btn btn-sm btn-dark mb-3" href="{{ path('security_login') }}" title="{{ 'Powrót' | trans }}">{{ 'Powrót na stronę logowania' | trans }}</a>
+				  	<div class="row">
+					  	<div class="col-3">
+					    	<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+					      		<a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">{{ 'Polityka prywatności' | trans }}</a>
+					      		<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">{{ 'Polityka plików cookies' | trans }}</a>
+					    	</div>
+					  </div>
+					  <div class="col-9">
+					    	<div class="tab-content" id="v-pills-tabContent">
+					      		<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-1-tab">
+<p class="lead">{{ 'Azilla.pl jest serwisem społecznościowym i aby móc realizować swoją funkcję, musi przetwarzać informacje na Twój temat. Rodzaje gromadzonych informacji zależą od tego, w jaki sposób korzystasz z portalu. W celu realizacji usługi przechowywujemy to, co robisz i robią inne osoby oraz informacje, których dostarczasz i dostarczają inne osoby. Gromadzimy treści, komunikaty i inne informacje, które dobrowolnie podajesz podczas korzystania z naszego portalu, w tym podczas rejestracji konta, tworzenia lub udostępniania treści oraz wysyłania wiadomości lub komunikacji z innymi osobami.' | trans }}</p>
+<p>{{ 'I. Administrator danych osobowych' | trans }}</p>
+<ol>
+	<li>Administratorem danych osobowych w rozumieniu art. 4 pkt 7 rozporządzenia Parlamentu  Europejskiego i Rady (UE) 2016/679 z dn. 27.04.2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego  przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (RODO) jest Błażej Skrzypniak prowadzący działalność nierejestrowaną, posiadający: adres do doręczeń: Biniew 22, 63-410 Ostrów Wielkopolski 2; adres poczty elektronicznej: kontakt@azilla.pl.</li>
+	<li>Administrator w myśl art. 32 ust. 1 RODO przestrzega zasady ochrony danych osobowych  oraz stosuje odpowiednie środki techniczne i organizacyjne w celu zapobieżenia przypadkowego lub niezgodnego z prawem zniszczenia, utraty, modyfikacji, nieuprawnionego ujawnienia lub nieuprawnionego dostępu do danych osobowych przetwarzanych w związku z prowadzoną działalnością.</li>
+	<li>Podanie danych osobowych jest dobrowolne, ale niezbędne w celu nawiązania współpracy i/lub zawarcia umowy z administratorem danych.</li>
+	<li>Administrator danych przetwarza dane osobowe wyłącznie w zakresie niezbędnych do prawidłowego świadczenia usług lub podjęcia czynności na żądanie osoby, której dane dotyczą.</li>
+</ol>
+<p>{{ 'II. Cel i podstawy przetwarzania danych osobowych' | trans }}</p>
+<ol>
+	<li>Administrator przetwarza dane osobowe w następujących celach:
+		<ul>
+			<li>świadczenie usług drogą elektroniczną za pośrednictwem Portalu internetowego, na podstawie zawartej umowy (art. 6 ust. 1 lit. b RODO);</li>
+			<li>obsługa procesu reklamacyjnego, na podstawie obowiązku ciążącym na administratorze danych w związku z obowiązującymi przepisami prawa (art. 6 ust. 1 lit. c RODO);</li>
+			<li>rachunkowych związanych z wystawianiem i przyjmowaniem dokumentów rozliczeniowych, na podstawie przepisów prawa podatkowego (art. 6 ust. 1 lit. c RODO);</li>
+			<li>archiwizacja danych dla ewentualnego ustalenia, dochodzenia lub obrony przed roszczeniami lub potrzeby wykazania faktów, co jest prawnie uzasadnionym interesem administratora danych (art. 6 ust. 1 lit f RODO);</li>
+			<li>kontakt telefoniczny lub za pośrednictwem poczty elektronicznej, w szczególności w odpowiedzi na zapytania kierowane do administratora danych, co jest prawnie uzasadnionym interesem administratora danych (art. 6 ust. 1 lit. f RODO);</li>
+			<li>przesyłanie informacji technicznych dotyczących funkcjonowania Portalu internetowego i usług, z których korzysta klient, co jest prawnie uzasadnionym interesem administratora danych (art. 6 ust. 1 lit. f RODO);</li>
+			<li>marketing produktów własnych administratora danych, co jest jego prawnie uzasadnionym interesem (art. 6 ust. 1 lit. f RODO) lub odbywa się na podstawie uprzednio udzielonej zgody (art. 6 ust. 1 lit. a RODO).</li>
+		</ul>
+	</li>
+</ol>
+<p>{{ 'III. Odbiorcy danych. Przekazywanie danych do państw trzecich' | trans }}</p>
+<ol>
+	<li>Odbiorcami danych osobowych przetwarzanych przez administratora danych mogą być podmioty współpracujące z administratorem danych, gdy jest to niezbędne do realizacji umowy zawartej z osobą, której dane dotyczą.</li>
+	<li>Odbiorcami danych osobowych przetwarzanych przez administratora danych mogą być również podwykonawcy – podmioty, z których usług korzysta administrator danych przy przetwarzaniu danych np. biura rachunkowe, kancelarie prawne, podmioty świadczące usługi IT (w tym usługi hostingowe).</li>
+	<li>Administrator danych może być zobowiązany do udostępnienia danych osobowych na podstawie obowiązujących przepisów prawa, w szczególności do udostępnienia danych osobowych uprawnionym organom lub instytucjom państwowym.</li>
+	<li>Dane osobowe nie będą przekazywane do podmiotu mającego siedzibę poza Europejskim Obszarem Gospodarczym.</li>
+</ol>
+<p>{{ 'IV. Okres przechowywania danych osobowych' | trans }}</p>
+<ol>
+	<li>Administrator danych przechowuje dane osobowe przez okres obowiązywania umowy zawartej z osobą, której dane dotyczą oraz po zakończeniu jej obowiązywania w celach związanych z dochodzeniem roszczeń związanych z umową, wykonania obowiązków  wynikających z obowiązujących przepisów prawa, ale przez czas nie dłuższy niż termin przedawnienia zgodnie z przepisami Kodeksu cywilnego.</li>
+	<li>Administrator danych przechowuje dane osobowe przetwarzane w celach marketingowych przez okres lat 10, jednak nie dalej niż do momentu wycofania zgody na przetwarzanie danych lub wniesienia sprzeciwu wobec przetwarzania danych.</li>
+	<li>Administrator danych przechowuje dane osobowe w celach innych niż wskazane w ust. 1- 3 przez okres 3 lat, chyba że wcześniej wycofano zgodę na przetwarzanie danych, a przetwarzanie danych nie może być kontynuowane na innej podstawie niż zgoda osoby, której dane dotyczą.</li>
+</ol>
+<p>{{ 'V. Uprawnienia osoby, której dane dotyczą' | trans }}</p>
+<ol>
+	<li>Każda osoba, której dane dotyczą, ma prawo:
+		<ul>
+			<li>dostępu – uzyskania od administratora potwierdzenia, czy przetwarzane są jej dane osobowe. Jeżeli dane o osobie są przetwarzane, jest ona uprawniona do uzyskania dostępu do nich oraz uzyskania następujących informacji: o celach przetwarzania,  kategoriach danych osobowych, informacji o odbiorcach lub kategoriach odbiorców, którym dane zostały lub zostaną ujawnione, o okresie przechowywania danych lub o kryteriach ich ustalania, o prawie do żądania sprostowania, usunięcia lub  ograniczenia przetwarzania danych osobowych przysługujących osobie, której dane  dotyczą, oraz do wniesienia sprzeciwu wobec takiego przetwarzania (art. 15 RODO);
+			<li>do otrzymania kopii danych – uzyskania kopii danych podlegających przetwarzaniu, przy czym pierwsza kopia jest bezpłatna, a za kolejne kopie administrator może nałożyć opłatę w rozsądnej wysokości wynikającą z kosztów administracyjnych (art. 15 ust. 3 RODO);</li>
+			<li>do sprostowania – żądania sprostowania dotyczących jej danych osobowych, które są nieprawidłowe lub uzupełnienia niekompletnych danych (art. 16 RODO);</li>
+			<li>do usunięcia danych – żądania usunięcia jej danych osobowych, jeżeli administrator nie ma już podstawy prawnej do ich przetwarzania lub dane nie są już niezbędne do celów przetwarzania (art. 17 RODO);</li>
+			<li>do ograniczenia przetwarzania – żądania ograniczenia przetwarzania danych osobowych (art. 18 RODO), gdy:
+				<ul>
+					<li>osoba, której dane dotyczą, kwestionuje prawidłowość danych osobowych – na okres pozwalający administratorowi sprawdzić prawidłowość tych danych,</li>
+					<li>przetwarzanie jest niezgodne z prawem, a osoba, której dane dotyczą, sprzeciwia się ich usunięciu, żądając ograniczenia ich wykorzystywania,</li>
+					<li>administrator nie potrzebuje już tych danych, ale są one potrzebne osobie, której dane dotyczą, do ustalenia, dochodzenia lub obrony roszczeń,</li>
+					<li>osoba, której dane dotyczą, wniosła sprzeciw wobec przetwarzania – do czasu stwierdzenia, czy prawnie uzasadnione podstawy po stronie administratora są nadrzędne wobec podstaw sprzeciwu osoby, której dane dotyczą;</li>
+				</ul>
+			</li>
+			<li>do przenoszenia danych – otrzymania w ustrukturyzowanym, powszechnie używanym formacie nadającym się do odczytu maszynowego danych osobowych jej dotyczących, które dostarczyła administratorowi, oraz żądania przesłania tych danych innemu administratorowi, jeżeli dane są przetwarzane na podstawie zgody osoby, której dane dotyczą lub umowy z nią zawartej oraz jeżeli dane są  przetwarzane w sposób zautomatyzowany (art. 20 RODO);</li>
+			<li>do sprzeciwu – wniesienia sprzeciwu wobec przetwarzania jej danych osobowych w prawnie uzasadnionych celach administratora, z przyczyn związanych z jej szczególną sytuacją, w tym wobec profilowania. Wówczas administrator dokonuje oceny istnienia ważnych prawnie uzasadnionych podstaw do przetwarzania, nadrzędnych wobec interesów, praw i wolności osób, których dane dotyczą, lub podstaw do ustalenia, dochodzenia lub obrony roszczeń. Jeżeli zgodnie z oceną interesy osoby, której dane dotyczą, będą ważniejsze od interesów administratora, administrator będzie zobowiązany zaprzestać przetwarzania danych w tych celach (art. 21 RODO).</li>
+		</ul>
+	</li>
+	<li>Aby skorzystać z wyżej wymienionych praw, osoba, której dane dotyczą, powinna skontaktować się, wykorzystując podane dane kontaktowe, z administratorem i poinformować go, z którego prawa i w jakim zakresie chce skorzystać.</li>
+	<li>Osoba, której dane dotyczą, ma prawo wnieść skargę do organu nadzoru, którym jest Prezes Urzędu Ochrony Danych Osobowych w Warszawie.</li>
+</ol>
+<p>{{ 'VI. Zautomatyzowane podejmowanie decyzji. Profilowanie' | trans }}</p>
+	<p class="ml-4">Administrator danych stosuje profilowanie użytkownika. Profilowanie polega na automatycznej analizie lub prognozie zachowania danej osoby na stronach Portalu internetowego, czy też  poprzez analizę dotychczasowej historii działań podejmowanych na Portalu. Warunkiem takiego profilowania jest posiadanie przez Administratora danych osobowych danej osoby, aby móc jej następnie przesłać stosowną informację.</p>
+<p>{{ 'VII. Google Analytics' | trans }}</p>
+<ol>
+	<li>Administrator używa Google Analytics, internetową usługę analityczną dostarczaną przez Google Inc. („Google“), USA.</li>
+	<li>Google Analytics używa plików cookie, które umożliwiają analizę korzystania przez użytkownika ze strony internetowej. Informacje wytworzone przez plik cookie na temat korzystania ze strony internetowej są przekazywane i zapisywane na serwerze Google. Na zlecenie Administratora, Google będzie wykorzystywał te informacje, aby przeanalizować  korzystanie ze strony przez użytkowników w celu przygotowania raportów na temat aktywności na stronie oraz świadczenia innych usług związanych z korzystaniem ze strony i Internetu na rzecz podmiotu zlecającego.</li>
+	<li>Dane nie będą wykorzystywane do celów identyfikacji jakiejkolwiek osoby fizycznej.</li>
+	<li>Użytkownik może uniemożliwić zapisywanie plików cookie poprzez odpowiednie ustawienia przeglądarki; jednak w takim wypadku nie będzie mógł korzystać z pełnej funkcjonalności strony. Ponadto użytkownicy mogą uniemożliwić gromadzenie przez Google danych wytworzonych przez pliki cookie oraz odnoszących się do ich korzystania z Portalu (łącznie z adresem IP), jak i przetwarzanie tych danych przez Google, pobierając i instalując wtyczkę do przeglądarki dostępną pod następującym linkiem: https://tools.google.com/dlpage/gaoptout?hl=pl.</li>
+	<li>W każdym momencie użytkownik może zgłosić sprzeciw wobec gromadzenia oraz przetwarzania danych związanych z użytkowaniem strony Google poprzez pobranie, oraz instalację wtyczki w przeglądarce, która jest dostępna pod następującym adresem: https://tools.google.com/dlpage/gaoptout?hl=en.</li>
+</ol>
+					      		</div>
+					      	<div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-2-tab">
+<p class="lead">{{ 'Pliki cookies (tzw. ciasteczka) stanowią dane informatyczne, w szczególności pliki tekstowe, które przechowywane są w urządzeniu końcowym użytkownika serwisu i przeznaczone są do korzystania ze stron internetowych serwisu. Cookies zazwyczaj zawierają nazwę strony internetowej, z której pochodzą, czas przechowywania ich na urządzeniu końcowym oraz unikalny numer.' | trans }}</p>
+<ol>
+	<li>Portal nie zbiera w sposób automatyczny żadnych informacji, z wyjątkiem informacji zawartych w plikach cookies.</li>
+	<li>Pliki cookies (tzw. ciasteczka) stanowią dane informatyczne, w szczególności pliki tekstowe, które przechowywane są w urządzeniu końcowym Użytkownika i przeznaczone są do korzystania ze stron internetowych Portalu. Cookies zazwyczaj zawierają nazwę strony internetowej z której pochodzą, czas przechowywania ich na urządzeniu końcowym oraz unikalny numer.</li>
+	<li>Podmiotem zamieszczającym na urządzeniu końcowym Użytkownika pliki cookies oraz uzyskującym do nich dostęp jest Usługodawca w rozumieniu Regulaminu Portalu. </li>
+	<li>Pliki cookies wykorzystywane są w celu:
+		<ul>
+			<li>dostosowania zawartości stron internetowych Portalu do preferencji Użytkownika oraz optymalizacji korzystania ze stron internetowych; w szczególności pliki te  pozwalają rozpoznać urządzenie Użytkownika i odpowiednio wyświetlić stronę  internetową, dostosowaną do jego indywidualnych potrzeb;</li>
+			<li>tworzenia statystyk, które pomagają zrozumieć, w jaki sposób Użytkownicy  korzystają ze stron internetowych, co umożliwia ulepszanie ich struktury i  zawartości;</li>
+			<li>utrzymania sesji Użytkownika.</li>
+		</ul>
+	</li>
+	<li>W ramach Portalu stosowane są następujące rodzaje plików cookies: 
+		<ul>
+			<li>"sesyjne" (session cookies) oraz "stałe" (persistent cookies). Cookies "sesyjne" są plikami tymczasowymi, które przechowywane są w urządzeniu końcowym Użytkownika do czasu wylogowania, opuszczenia strony internetowej lub wyłączenia oprogramowania (przeglądarki internetowej). "Stałe" pliki cookies przechowywane są w urządzeniu końcowym Użytkownika przez czas określony w  parametrach plików cookies lub do czasu ich usunięcia przez Usługobiorcę;</li>
+			<li>"niezbędne" pliki cookies, umożliwiające korzystanie z usług dostępnych w ramach Portalu, np. uwierzytelniające pliki cookies wykorzystywane do usług wymagających uwierzytelniania w ramach Portalu;</li>
+			<li>pliki cookies służące do zapewnienia bezpieczeństwa, np. wykorzystywane do wykrywania nadużyć w zakresie uwierzytelniania w ramach Portalu;</li>
+			<li>"wydajnościowe" pliki cookies, umożliwiające zbieranie informacji o sposobie korzystania ze stron internetowych Portalu;</li>
+			<li>"funkcjonalne" pliki cookies, umożliwiające "zapamiętanie" wybranych przez Użytkownika ustawień i personalizację interfejsu Użytkownika, np. w zakresie wybranego języka lub regionu, z którego pochodzi Użytkownik, rozmiaru czcionki, wyglądu strony internetowej itp.;</li>
+			<li>"reklamowe" pliki cookies, umożliwiające dostarczanie Użytkownikom treści reklamowych bardziej dostosowanych do ich zainteresowań.</li>
+		</ul>
+	</li>
+	<li>W wielu przypadkach oprogramowanie służące do przeglądania stron internetowych (przeglądarka internetowa) domyślnie dopuszcza przechowywanie plików cookies w urządzeniu końcowym Użytkownika. Użytkownicy mogą dokonać w każdym czasie zmiany ustawień dotyczących plików cookies. Ustawienia te mogą zostać zmienione w szczególności w taki sposób, aby blokować automatyczną obsługę plików cookies w ustawieniach przeglądarki internetowej bądź informować o ich każdorazowym  zamieszczeniu w urządzeniu Użytkownika. Szczegółowe informacje o możliwości i sposobach obsługi plików cookies dostępne są w ustawieniach oprogramowania (przeglądarki internetowej).</li>
+	<li>Usługodawca informuje, że ograniczenia stosowania plików cookies mogą wpłynąć na niektóre funkcjonalności dostępne na Portalu.</li>
+</ol>
+					      	</div>
+					    </div>
+					  </div>
+					</div>
+				</div>
+        	</div>
+		</div>
+      </div>
+    </div>
+{% endblock %}
