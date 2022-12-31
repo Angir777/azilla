@@ -13,7 +13,7 @@ Demo: https://azilla.pl/
 - full account creation process, confirmation and password reset,
 - customized application settings for the user,
 - simple messaging system between users,
-- the ability to add a post, photo / video or link,
+- the ability to add a text, photo / video or link,
 - the ability to follow other users and groups,
 - the ability to block selected users,
 - comment and rating system for posts,
