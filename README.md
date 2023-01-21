@@ -3,6 +3,8 @@
 An internet portal with memes created on fremork for symfony
 Demo: https://azilla.pl/
 
+![My Image](https://github.com/Angir777/azilla/blob/master/screen-azilla.jpg)
+
 ## Project launch
 1. Download this repository,
 2. `composer install`
